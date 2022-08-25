@@ -10,44 +10,15 @@
     <h1>List of Players</h1>
     <hr />
 
-    <table>
-      <tr>
-        <td>ID</td>
-        <td>Name</td>
-        <td>Action</td>
-      </tr>
-
-      <tr>
-        <td id="id_player">001</td>
-        <td id="player_name">Mario</td>
-        <td><button id="delete_player">Delete</button></td>
-      </tr>
-
-      <tr>
-        <td id="id_player">002</td>
-        <td id="player_name">Juan</td>
-        <td><button id="delete_player">Delete</button></td>
-      </tr>
-
-      <tr>
-        <td id="id_player">003</td>
-        <td id="player_name">Pedro</td>
-        <td><button id="delete_player">Delete</button></td>
-      </tr>
-
-      <tr>
-        <td id="id_player">004</td>
-        <td id="player_name">Rodolfo</td>
-        <td><button id="delete_player">Delete</button></td>
-      </tr>
-
-      <tr>
-        <td id="id_player">005</td>
-        <td id="player_name">Carlos</td>
-        <td><button id="delete_player">Delete</button></td>
-      </tr>
+    <table id="players">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
     </table>
     <script src="./src/js/players-managment.js"></script>
-    <script>getListOfPlayers()</script>
   </body>
 </html>
