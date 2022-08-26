@@ -9,11 +9,14 @@
     <h1>Create Player</h1>
     <hr/>
     <h2>Enter player info, please</h2>
+    <form>
     <label> Name: </label>
     <input id="playerName" placeholder="Write yur name"></input> <br>
     <label> Type: </label>
-    <input type="radio" name="playerType">Human</input>
-    <input type="radio" name="playerType">Bot</input> <br>
-    <input type="button" value="Save"></input>
+    <input type="radio" value="Human" name="playerType">Human</input>
+    <input type="radio" value="Bot" name="playerType">Bot</input> <br>
+    <input type="button" id="createPlayer"  value="Save"></input>
+    </form>
+    <script src="./src/js/create-player.js"></script>
   </body>
 </html>
