@@ -54,6 +54,7 @@ header nav a:hover {
 	border-radius:50px;
 }
 
+
 .form-box {
     width: 400px;
     height: 340px;
@@ -75,23 +76,24 @@ header nav a:hover {
     font-size: 20px;
 }
 
-#playersMenu {
+
+#mMenu {
     list-style:none;
     
 }
 
-#playersMenu li a {
+#mMenu li a {
     display: flex;
     justify-content: center;
 }
 
 .menu-btn {
    display: block;
-   width: 270px;
+   width: 300px;
    font-family: Arial, Helvetica, sans-serif;
    font-weight: 700;
    border-radius: 10px;
-   margin: 45px 15px;
+   margin: 35px 5px;
    padding: 15px 80px;
    background-color: rgb(127, 206, 255);
    color: #fff;
@@ -104,7 +106,7 @@ header nav a:hover {
     color: rgb(127, 206, 255);
   }
 
-  .footer{
+.footer{
     background: #252932;
     position: absolute;
     bottom: 0;
