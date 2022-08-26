@@ -1,19 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create Player</title>
-  </head>
-    <h1>Create Player</h1>
-    <hr/>
-    <h2>Enter player info, please</h2>
-    <label> Name: </label>
-    <input id="playerName" placeholder="Write yur name"></input> <br>
-    <label> Type: </label>
-    <input type="radio" name="playerType">Human</input>
-    <input type="radio" name="playerType">Bot</input> <br>
-    <input type="button" value="Save"></input>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./src/css/styles.css">
+  <title>Create Player</title>
+</head>
+
+<body>
+  <header class="Header-msg">
+    <div class="wrapper">
+      <div class="logo">Let's create a player</div>
+      <nav>
+        <a href="#">Help</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <form action="" class="form-box">
+      <h5>Creating a player</h5>
+      <label> Name: </label>
+      <input id="playerName" placeholder="Write your name"></input> <br>
+      <label> Type: </label>
+      <input type="radio" value="Human" name="playerType">Human</input>
+      <input type="radio" value="Bot" name="playerType">Bot</input> <br>
+      <input class="create-btn" type="button" id="createPlayer" value="Save"></input>
+    </form>
+  </main>
+
+  <footer class="footer">
+    <div class="copyright">
+      <p>Copyright©Telus International. All right reserved</p>
+      <p>Privacy Policy Terms and conditions</p>
+    </div>
+  </footer>
+
+  <script src="./src/js/create-player.js"></script>
+
+</body>
 </html>
