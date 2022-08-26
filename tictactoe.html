@@ -16,10 +16,20 @@
 
 	<main>
 		<h2>
-			Choose a player:
+			Choose players:
 		</h2>
-		<ul id="list-of-players"></ul>
-		<table id="board">
+		<table style="color:aliceblue" id="players">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Select</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+		<button id="startGame">Start</button>
+
+		<table class="form-box" id="board">
 			<tr>
 				<td></td>
 				<td class="vertical"></td>
@@ -44,6 +54,7 @@
 			<p>Privacy Policy Terms and conditions</p>
 		</div>
 	</footer>
+	<script src="./src/js/tictactoe.js"></script>
 </body>
 
 </html>

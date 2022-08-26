@@ -123,11 +123,15 @@ header nav a:hover {
     color:#f2f2f2;
 }
 
+<<<<<<< HEAD
 
 /** TICTACTOE **/
 
 
 /**  td {
+=======
+td {
+>>>>>>> 200794e573fbd84fdfee444dd36a2f42a4e8a7b4
     width: 100px;
     height: 100px;
   }
@@ -141,6 +145,7 @@ header nav a:hover {
   .horizontal {
     border-top: 2px solid rgb(250, 250, 250);
     border-bottom: 2px solid rgb(255, 252, 252);
+<<<<<<< HEAD
   }**/
 
 
@@ -198,3 +203,6 @@ header nav a:hover {
 }
 
 
+=======
+  }
+>>>>>>> 200794e573fbd84fdfee444dd36a2f42a4e8a7b4

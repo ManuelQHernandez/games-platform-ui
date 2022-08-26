@@ -11,14 +11,24 @@
 
 <body>
     <header>
-        <h1>TicTacToe</h1>
+        <h1>Hang Man</h1>
     </header>
 
     <main>
         <h2>
-            Choose a player:
+            Choose players:
         </h2>
-        <ul id="list-of-players"></ul>
+        <table style="color:aliceblue" id="players">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button id="startGame">Start</button>
+
         <form action="" method="post" id="secret-word-form">
             <input type="text" placeholder="Enter secret word">
             <input type="submit" value="Submit">
@@ -39,6 +49,7 @@
             <p>Privacy Policy Terms and conditions</p>
         </div>
     </footer>
+	<script src="./src/js/hangman.js"></script>
 
 </body>
 
