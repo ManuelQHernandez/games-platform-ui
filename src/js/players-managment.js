@@ -1,12 +1,22 @@
-const URL = "https://jsonplaceholder.typicode.com/todos";
-let deletePlayersbtn = [];
-getListOfPlayers();
-const tablePlayers = document.querySelector("#players tbody");
-const createPlayersbtn = document.querySelector("#createPlayer");
+/*const createPlayersbtn = document.querySelector("#createPlayer");
 const playerName = document.querySelector("#playerName");
-const playerType = document.querySelector("#playerName");
+const playerType = document.querySelector("#playerName");*/
 
-deletePlayersbtn.forEach((btn) => (btn.onclick = () => console.log("Hi")));
+
+
+
+
+
+
+const tablePlayers = document.querySelector("#players tbody");
+
+let deletePlayersBtn;
+
+const URL = "https://jsonplaceholder.typicode.com/todos";
+
+getListOfPlayers();
+
+
 
 
 
@@ -18,20 +28,55 @@ function getListOfPlayers() {
     .then((json) => {
       console.log(json);
       requestResult = json
-
         .map((element) => {
           return `
-           <tr id="${element.id}">
-            <td>${element.title}</td>
-            <td><button class="delete-btn">Delete</button></td>
-          </tr>
-        `;
+                <tr id="${element.id}">
+                <td>${element.title.slice(0, 20)}</td>
+                <td><button class="delete-btn">Delete</button></td>
+                </tr>
+                `;
         })
         .join("");
       tablePlayers.innerHTML = requestResult;
-      deletePlayersbtn = document.querySelectorAll(".delete-btn");
-    });
+    })
+    .then(() => deletePlayersBtn = document.querySelectorAll(".delete-btn"))
+    .then(() => deletePlayersBtn.forEach((btn) => btn.addEventListener("click", (e) => {
+      console.log("Hola");
+      const idPlayer = e.target.parentElement.parentElement.id;
+      console.log(idPlayer);
+      deletePlayer(idPlayer);
+    })));
 }
+
+
+
+
+
+
+
+
+
+
+
+function bridgeDeletePlayer(e) {
+  console.log("Hola");
+  console.log(e.target);
+  //deletePlayer();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function deletePlayer(idPlayer) {
   var formdata = new FormData();
@@ -51,12 +96,19 @@ function deletePlayer(idPlayer) {
     .catch((error) => console.log("error", error));
 }
 
-/*function bridgeDeletePlayer(e) {
-  console.log("Hola");
-  console.log(e.target);
-  //deletePlayer();
-}
-*/
+
+
+
+
+
+
+
+
+
+
+/*
+/*
+
 function createPlayer(newName, newType) {
   var formdata = new FormData();
   formdata.append("name", newName);
@@ -83,3 +135,4 @@ function bridgecreatePlayer(e) {
   console.log(e.target.id);
 
 }
+*/
