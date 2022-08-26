@@ -8,7 +8,7 @@ function showPlayers() {
 
     };
 
-    fetch(URL_TODOS, requestOptions)
+    fetch(URL_TODOS,requestOptions)
         .then((response) => response.json())
         .then((json) => {
             console.log(json);
