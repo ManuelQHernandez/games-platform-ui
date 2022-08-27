@@ -10,37 +10,63 @@
 </head>
 
 <body>
-    <header>
-        <h1>Hang Man</h1>
-    </header>
+
 
     <main>
+
+        
+
         <h2>
             Choose players:
         </h2>
-        <table style="color:aliceblue" id="players">
+
+   
+
+        <table class="playerTable" id="players">
             <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Select</th>
-                </tr>
+              <tr>
+                <th class="tableHead">Name</th>
+                <th class="tableHead">Select</th>
+              </tr>
+           
             </thead>
             <tbody></tbody>
-        </table>
-        <button id="startGame">Start</button>
+            
+          </table>
+
+        
+        
+
+    <div class="panelInput">
+
+        <button class="btnControls" id="startGame">Start</button>
 
         <form action="" method="post" id="secret-word-form">
-            <input type="text" placeholder="Enter secret word">
-            <input type="submit" value="Submit">
+            <label>
+            <input class="controls" type="text" placeholder="Enter secret word">
+            <input class="btnControls" type="submit" value="Submit">
+           </label>
         </form>
+  
+    
+       
         <div id="board">
             <div id="hangedman"></div>
             <div id="secret-word"></div>
         </div>
+
+        
         <form action="" method="post" id="given-letter-form">
-            <input type="text" placeholder="Enter letter">
-            <input type="submit" value="Try">
+            <label>
+            <input class="controls" type="text" placeholder="Enter letter">
+            <input class="btnControls" type="submit" value="Try">
+            </label>
         </form>
+   
+    </div>
+
+
+
     </main>
 
     <footer class="footer">

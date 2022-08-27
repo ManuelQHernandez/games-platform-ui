@@ -16,7 +16,7 @@ function showPlayers() {
                 .map((element) => {
                     return `
                             <tr id="${element.id}">
-                                <td>${element.title.slice(0, 10)}</td>
+                                <td class="tableData">${element.title.slice(0, 10)}</td>
                                 <td>
                                     <input type="checkbox" value=${element.id} name="playerSelected">
                                 </td>

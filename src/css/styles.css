@@ -7,6 +7,10 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     background-image: url('../assets/background.webp');
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .Header-msg {
@@ -106,11 +110,13 @@ header nav a:hover {
     color: rgb(127, 206, 255);
   }
 
+
 .footer{
+  margin-top: auto;
+  display: table;
+  width: 100%;
+  height: 13vh;
     background: #252932;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
     box-sizing: border-box;
     background: rgba(0, 0, 0, 0.5);
     color:#f2f2f2;
@@ -123,30 +129,45 @@ header nav a:hover {
     color:#f2f2f2;
 }
 
-<<<<<<< HEAD
 
 /** TICTACTOE **/
+#tdTTT {
+  width: 100px;
+  height: 100px;
+}
+#board {
+  margin: 5px auto;
+}
+.vertical {
+  border-left: 2px solid rgb(255, 255, 255);
+  border-right: 2px solid rgb(255, 250, 250);
+}
+.horizontal {
+  border-top: 2px solid rgb(250, 250, 250);
+  border-bottom: 2px solid rgb(255, 252, 252);
+}
+.btnStartTTT {
+  width: 10%;
+  background-color: rgb(127, 206, 255);;
+  padding: 10px;
+  border-radius: 4px;
+  color: white;
+  margin-bottom: 5px;
+  border: 1px solid #1f53c5;
+  font-size: 18px;
+  margin: 5px;
+  transform: translateX(445%);
+}
 
+.btnStartTTT:hover{
+  background-color: transparent;
+  border: 2px solid rgb(127, 206, 255);
+  color: rgb(127, 206, 255);
+}
 
-/**  td {
-=======
-td {
->>>>>>> 200794e573fbd84fdfee444dd36a2f42a4e8a7b4
-    width: 100px;
-    height: 100px;
-  }
-  #board {
-    margin: 5px auto;
-  }
-  .vertical {
-    border-left: 2px solid rgb(255, 255, 255);
-    border-right: 2px solid rgb(255, 250, 250);
-  }
-  .horizontal {
-    border-top: 2px solid rgb(250, 250, 250);
-    border-bottom: 2px solid rgb(255, 252, 252);
-<<<<<<< HEAD
-  }**/
+#trBackgroud {
+  background: #4e4e4e;
+} 
 
 
   
@@ -203,6 +224,50 @@ td {
 }
 
 
-=======
-  }
->>>>>>> 200794e573fbd84fdfee444dd36a2f42a4e8a7b4
+
+/** INPUT DE HANGMAN**/
+
+.label {
+  position: relative;
+}
+
+.panelInput {
+  width: 440px;
+  background: #24303c;
+  padding: 15px;
+  margin: 5% auto;
+  margin-top: 45px;
+  border-radius: 4px;
+  color: white;
+  display: flex;
+}
+
+.controls {
+  width: 90%;
+  color: white;
+  background: #24303c;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  border: 1px solid #1f53c5;
+  
+}
+
+.btnControls {
+  width: 95%;
+  background-color: rgb(127, 206, 255);;
+  padding: 10px;
+  border-radius: 4px;
+  color: white;
+  margin-bottom: 5px;
+  border: 1px solid #1f53c5;
+  font-size: 18px;
+  margin: 5px;
+}
+
+.btnControls:hover{
+  background-color: transparent;
+  border: 2px solid rgb(127, 206, 255);
+  color: rgb(127, 206, 255);
+}
+
