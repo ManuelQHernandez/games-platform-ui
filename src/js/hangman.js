@@ -18,7 +18,7 @@ function showPlayers() {
                             <tr id="${element.id}">
                                 <td class="tableData">${element.title.slice(0, 10)}</td>
                                 <td>
-                                    <input type="checkbox" value=${element.id} name="playerSelected">
+                                    <input class="option-input" type="checkbox" value=${element.id} name="playerSelected">
                                 </td>
                             </tr>
                             `;

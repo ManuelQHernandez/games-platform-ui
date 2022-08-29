@@ -23,11 +23,24 @@
     <form action="" class="form-box">
       <h5>Creating a player</h5>
       <label> Name: </label>
-      <input id="playerName" placeholder="Write your name"></input> <br>
-      <label> Type: </label>
-      <input type="radio" value="Human" name="playerType">Human</input>
-      <input type="radio" value="Bot" name="playerType">Bot</input> <br>
-      <input class="create-btn" type="button" id="createPlayer" value="Save"></input>
+      <input class="inputName" id="playerName" placeholder="Write your name">
+      
+      <label class="rad-label">      
+      <input class="rad-input" type="radio" value="Human" name="playerType"/>
+      <div class="rad-design"></div>
+      <div class="rad-text">Human</div>
+      </label>
+
+      <label class="rad-label">
+        <input class="rad-input" type="radio" value="Bot" name="playerType"/>
+        <div class="rad-design"></div>
+        <div class="rad-text">Bot</div>
+      </label>
+      
+
+      <input class="btnCreate" type="button" id="createPlayer" value="Save"></input>
+
+
     </form>
   </main>
 

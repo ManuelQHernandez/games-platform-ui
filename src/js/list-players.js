@@ -19,7 +19,7 @@ function getListOfPlayers() {
         .map((element) => {
           return `      
                 <tr id="${element.id}">
-                <td class="tableData">${element.title.slice(0, 20)}</td>
+                <td>${element.title.slice(0, 20)}</td>
                 <td class="tableData"><button class="delete-btn">Delete</button></td>
                 </tr>
                 `;

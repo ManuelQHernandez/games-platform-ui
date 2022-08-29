@@ -173,8 +173,8 @@ header nav a:hover {
   
   /** LIST PLAYERS **/
   .playerTable {
-    margin-left: auto;
-    margin-right: auto;
+       margin-left: auto;
+       margin-right: auto;
        z-index: 2;
        left: 50%;
        top: 50%;
@@ -243,7 +243,7 @@ header nav a:hover {
 }
 
 .controls {
-  width: 90%;
+  width: 85%;
   color: white;
   background: #24303c;
   padding: 10px;
@@ -253,8 +253,8 @@ header nav a:hover {
   
 }
 
-.btnControls {
-  width: 95%;
+.btnStart {
+  width: 10%;
   background-color: rgb(127, 206, 255);;
   padding: 10px;
   border-radius: 4px;
@@ -263,6 +263,20 @@ header nav a:hover {
   border: 1px solid #1f53c5;
   font-size: 18px;
   margin: 5px;
+  transform: translateX(450%);
+}
+
+.btnControls {
+  width: 85%;
+  background-color: rgb(127, 206, 255);;
+  padding: 10px;
+  border-radius: 4px;
+  color: white;
+  margin-bottom: 5px;
+  border: 1px solid #1f53c5;
+  font-size: 18px;
+  
+  
 }
 
 .btnControls:hover{
@@ -270,4 +284,106 @@ header nav a:hover {
   border: 2px solid rgb(127, 206, 255);
   color: rgb(127, 206, 255);
 }
+
+.btnStart:hover {
+  background-color: transparent;
+  border: 2px solid rgb(127, 206, 255);
+  color: rgb(127, 206, 255);
+}
+
+
+/** CREATE-PLAYER **/
+.labelName {
+  position: relative;
+}
+.inputName {
+  width: 85%;
+  color: white;
+  background: #24303c;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  border: 1px solid #1f53c5;
+  
+}
+
+.btnCreate {
+  width: 40%;
+  background-color: rgb(127, 206, 255);;
+  padding: 7px;
+  border-radius: 4px;
+  color: white;
+  margin-bottom: 5px;
+  border: 1px solid #1f53c5;
+  font-size: 18px;
+  transform: translateX(80%);
+}
+
+.btnCreate:hover{
+  background-color: transparent;
+  border: 2px solid rgb(127, 206, 255);
+  color: rgb(127, 206, 255);
+}
+
+.rad-label {
+  display: flex;
+  align-items: center;
+  border-radius: 100px;
+  padding: 14px 16px;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.rad-label:hover,
+.rad-label:focus-within {
+  background: hsla(0, 0%, 80%, .14);
+}
+
+.rad-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  z-index: -1;
+}
+
+.rad-design {
+  width: 22px;
+  height: 22px;
+  border-radius: 100px;
+  background: linear-gradient(to right bottom, hsl(154, 97%, 62%), hsl(225, 97%, 62%));
+  position: relative;
+}
+
+.rad-design::before {
+  content: '';
+  display: inline-block;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+  background: hsl(0, 0%, 90%);
+  transform: scale(1.1);
+  transition: .3s;
+}
+
+.rad-input:checked+.rad-design::before {
+  transform: scale(0);
+}
+
+.rad-text {
+  color: hsl(0, 0%, 60%);
+  margin-left: 14px;
+  letter-spacing: 2px;
+  font-size: 15px;
+  transition: .3s;
+}
+
+.rad-input:checked~.rad-text {
+  color: hsl(0, 0%, 40%);
+}
+
+/**Checkboxs**/
 
