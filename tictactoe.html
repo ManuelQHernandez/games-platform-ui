@@ -10,14 +10,15 @@
 </head>
 
 <body>
-	<header>
-		<h1>TicTacToe</h1>
+	<header class="Header-msg">
+		<div class="turnsPlayers" id="playerTurn">
+			<h5>It's your turn <span id="currentPlayerName"> </span>
+			</h5>
+		</div>
 	</header>
 
 	<main>
-		<h2>
-			Choose players:
-		</h2>
+
 		<table class="playerTable" id="players">
 			<thead>
 				<tr>
@@ -27,31 +28,27 @@
 			</thead>
 			<tbody></tbody>
 		</table>
-		
-		
-		
-				
-				<table class="form-box" id="board">
 
-					<button class="btnStartTTT" id="startGame">Start</button>
+		<table class="form-box" id="board">
+			<button class="btnStartTTT" id="startGame">Start</button>
 
-					<tr id="trBackgroud">
-						<td id="tdTTT"></td>
-						<td id="tdTTT" class="vertical"></td>
-						<td id="tdTTT"></td>
-					</tr>
-					<tr id="trBackgroud">
-						<td id="tdTTT" class="horizontal"></td>
-						<td id="tdTTT" class="vertical horizontal"></td>
-						<td id="tdTTT" class="horizontal"></td>
-					</tr>
-					<tr id="trBackgroud">
-						<td id="tdTTT"></td>
-						<td id="tdTTT" class="vertical"></td>
-						<td id="tdTTT"></td>
-					</tr>
-				</table>
-			
+			<tr id="trBackgroud">
+				<td data-column=1 data-row=1 class="Square"></td>
+				<td data-column=1 data-row=2 class="Square vertical"></td>
+				<td data-column=1 data-row=3 class="Square"></td>
+			</tr>
+			<tr id="trBackgroud">
+				<td data-column=2 data-row=1 class="Square horizontal"></td>
+				<td data-column=2 data-row=2 class="Square vertical horizontal"></td>
+				<td data-column=2 data-row=3 class="Square horizontal"></td>
+			</tr>
+			<tr id="trBackgroud">
+				<td data-column=3 data-row=1 class="Square"></td>
+				<td data-column=3 data-row=2 class="Square vertical"></td>
+				<td data-column=3 data-row=3 class="Square"></td>
+			</tr>
+		</table>
+
 
 	</main>
 
