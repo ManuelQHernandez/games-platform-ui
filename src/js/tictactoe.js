@@ -1,24 +1,35 @@
 const players = document.querySelector('#players tbody');
 const startGameBtn = document.querySelector('#startGame');
-const URL_TODOS = 'https://jsonplaceholder.typicode.com/todos/';
+const listPlayers = document.getElementById('players');
+const turnBanner = document.getElementById('playerTurn');
+const playerName = document.getElementById('currentPlayerName');
+const squares = document.querySelectorAll('.Square');
+const board = document.getElementById('board');
+
+const URL_PLAYERS = 'http://localhost:8080/api/players/';
+const URL_TTT = 'http://localhost:8080/api/ttt/';
 const MAX_NUMBER_OF_PLAYERS = 2;
+
 let checkBoxes = [];
 let selectedPlayers = [];
+let currentPlayer;
 
 function showPlayers() {
     const requestOptions = {
         method: "GET",
     };
-    fetch(URL_TODOS, requestOptions)
+    fetch(URL_PLAYERS, requestOptions)
+
         .then((response) => response.json())
+
         .then((json) => {
             return json
                 .map((element) => {
                     return `
-                            <tr id="${element.id}">
-                                <td class="tableData">${element.title.slice(0, 10)}</td>
+                            <tr id="${element.idPlayer}">
+                                <td class="tableData">${element.name}</td>
                                 <td>
-                                    <input class="option-input" type="checkbox" value=${element.id} name="playerSelected">
+                                    <input class="option-input" type="checkbox" value=${element.idPlayer} name="playerSelected">
                                 </td>
                             </tr>
                             `;
@@ -33,34 +44,113 @@ function showPlayers() {
 
 function checkCheckBoxes() {
     const numberOfPlayers = [...checkBoxes].filter(checkbox => checkbox.checked).length;
-    if (numberOfPlayers >= MAX_NUMBER_OF_PLAYERS) 
+    if (numberOfPlayers >= MAX_NUMBER_OF_PLAYERS)
         checkBoxes.forEach(checkbox => !checkbox.checked ? checkbox.disabled = true : "");
-    else     
+    else
         checkBoxes.forEach(checkbox => checkbox.disabled = false);
-}        
+}
 
 function startGameHandler() {
     selectedPlayers = [...checkBoxes].filter(checkBox => checkBox.checked);
     if (selectedPlayers.length !== MAX_NUMBER_OF_PLAYERS) return;
     const [player1, player2] = [...selectedPlayers];
     createNewTurn(player1.value, player2.value);
-}    
+
+}
 
 function createNewTurn(player1, player2) {
-    const formdata = new FormData();
-    formdata.append("player1", player1);
-    formdata.append("player2", player2);
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var raw = JSON.stringify([
+        {
+            "idPlayer": player1
+        },
+        {
+            "idPlayer": player2
+        }
+    ]);
 
     const requestOptions = {
         method: "POST",
-        body: formdata,
-    };    
+        body: raw,
+        headers: myHeaders
+    };
 
-    fetch(URL_TODOS, requestOptions)
+    fetch(URL_TTT, requestOptions)
         .then(response => response.json())
-        .then(json => console.log(json));
-}        
+        .then(result => {
+            currentPlayer = result.turn;
+            playerName.innerText = currentPlayer.name;
+        })
+        .then(json => console.log(json))
+}
+
+function hideElements() {
+    startGameBtn.style.display = 'none';
+    listPlayers.style.display = 'none';
+    turnBanner.style.display = 'flex';
+    board.style.display = 'flex';
+
+}
+
+turnBanner.style.display = 'none';
+board.style.display = 'none';
+
+
+function createNewMovement(idRound, player, position) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+        "ticTacToePlayer": {
+            "player": {
+                "idPlayer": player,
+            },
+            "piece": {
+                "idPiece": 1,
+                "name": "X"
+            }
+        },
+        "position": {
+            position
+        }
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw
+    };
+
+    fetch(URL_TTT + 1, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            currentPlayer = result.turn;
+            playerName.innerText = " " + currentPlayer.name;
+        })
+        .catch(error => console.log('error', error));
+}
+
+function selectSquare(event) {
+    createNewMovement()
+    console.log(event.target.dataset.column);
+    console.log(event.target.dataset.row);
+    squares.disabled = false;
+}
+
+showPlayers();
 
 startGameBtn.addEventListener('click', startGameHandler);
 
-showPlayers();
+function validatePlayersBeforeStart() {
+    const numberOfPlayers = [...checkBoxes].filter(checkbox => checkbox.checked).length;
+    if (numberOfPlayers < MAX_NUMBER_OF_PLAYERS) {
+        alert("You need to choose two players");
+    }
+    else {
+        hideElements();
+    }
+}
+
+startGameBtn.addEventListener('click', validatePlayersBeforeStart);
+squares.forEach(square => square.addEventListener('click', selectSquare));
