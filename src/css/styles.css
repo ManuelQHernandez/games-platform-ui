@@ -1,165 +1,171 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-image: url('../assets/background.webp');
-    min-height: 100vh;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
+  font-family: Arial, Helvetica, sans-serif;
+  background-image: url('../assets/background.webp');
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .Header-msg {
-    width: 100%;
-    box-sizing: border-box;
-    background: rgba(0, 0, 0, 0.5);
-    margin-bottom:20px;
-    overflow:hidden; 
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.5);
+  margin-bottom: 20px;
+  overflow: hidden;
 }
 
 .wrapper {
-	width:90%; 
-	max-width:1000px; 
-	margin:auto; 
-	overflow:hidden; 
+  width: 90%;
+  max-width: 1000px;
+  margin: auto;
+  overflow: hidden;
 }
 
 header .logo {
-	color:#f2f2f2;
-	font-size:50px;
-	line-height:200px;
-	float:left;
+  color: #f2f2f2;
+  font-size: 50px;
+  line-height: 200px;
+  float: left;
 }
 
 header nav {
-	float:right;
-	line-height:200px;
+  float: right;
+  line-height: 200px;
 }
 
 header nav a {
-	display:inline-block;
-	color:#fff;
-	text-decoration:none;
-	padding:10px 20px;
-	line-height:normal;
-	font-size:20px;
-	font-weight:bold;
-	-webkit-transition:all 500ms ease;
-	-o-transition:all 500ms ease;
-	transition:all 500ms ease;
+  display: inline-block;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+  line-height: normal;
+  font-size: 20px;
+  font-weight: bold;
+  -webkit-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
 }
 
 header nav a:hover {
-	background:#40887f;
-	border-radius:50px;
+  background: #40887f;
+  border-radius: 50px;
 }
 
 
 .form-box {
-    width: 400px;
-    height: 340px;
-    background: #4e4e4e;
-    margin: auto;
-    margin-top: 70px;
-    box-shadow: 7px 13px 37px #000;
-    padding: 20px 50px;
-    border-top: 4px solid #017bab;
-    color: white;
+  width: 400px;
+  height: 340px;
+  background: #4e4e4e;
+  margin: auto;
+  margin-top: 70px;
+  box-shadow: 7px 13px 37px #000;
+  padding: 20px 50px;
+  border-top: 4px solid #017bab;
+  color: white;
 }
 
 .form-box h5 {
-    margin: 0;
-    text-align: center;
-    height: 40px;
-    margin-bottom: 30px;
-    border-bottom: 1px solid;
-    font-size: 20px;
+  margin: 0;
+  text-align: center;
+  height: 40px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid;
+  font-size: 20px;
 }
 
 
 #mMenu {
-    list-style:none;
-    
+  list-style: none;
+
 }
 
 #mMenu li a {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .menu-btn {
-   display: block;
-   width: 300px;
-   font-family: Arial, Helvetica, sans-serif;
-   font-weight: 700;
-   border-radius: 10px;
-   margin: 35px 5px;
-   padding: 15px 80px;
-   background-color: rgb(127, 206, 255);
-   color: #fff;
-   text-decoration: none;
+  display: block;
+  width: 300px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  border-radius: 10px;
+  margin: 35px 5px;
+  padding: 15px 80px;
+  background-color: rgb(127, 206, 255);
+  color: #fff;
+  text-decoration: none;
 }
 
 .menu-btn:hover {
-    background-color: transparent;
-    border: 2px solid rgb(127, 206, 255);
-    color: rgb(127, 206, 255);
-  }
+  background-color: transparent;
+  border: 2px solid rgb(127, 206, 255);
+  color: rgb(127, 206, 255);
+}
 
 
-.footer{
+.footer {
   margin-top: auto;
   display: table;
   width: 100%;
   height: 13vh;
-    background: #252932;
-    box-sizing: border-box;
-    background: rgba(0, 0, 0, 0.5);
-    color:#f2f2f2;
+  background: #252932;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.5);
+  color: #f2f2f2;
 }
 
-.copyright{
-    display: flex;
-    justify-content: space-between;
-    padding: 30px;   
-    color:#f2f2f2;
+.copyright {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+  color: #f2f2f2;
 }
 
 
 /** TICTACTOE **/
-#tdTTT {
+.Square {
   width: 100px;
   height: 100px;
+  cursor: pointer;
+  border-color: #f2f2f2;
 }
+
 #board {
   margin: 5px auto;
 }
+
 .vertical {
   border-left: 2px solid rgb(255, 255, 255);
   border-right: 2px solid rgb(255, 250, 250);
 }
+
 .horizontal {
   border-top: 2px solid rgb(250, 250, 250);
   border-bottom: 2px solid rgb(255, 252, 252);
 }
+
 .btnStartTTT {
   width: 10%;
-  background-color: rgb(127, 206, 255);;
+  background-color: rgb(127, 206, 255);
   padding: 10px;
   border-radius: 4px;
   color: white;
   margin-bottom: 5px;
   border: 1px solid #1f53c5;
   font-size: 18px;
-  margin: 5px;
+  margin: 30px;
   transform: translateX(445%);
 }
 
-.btnStartTTT:hover{
+.btnStartTTT:hover {
   background-color: transparent;
   border: 2px solid rgb(127, 206, 255);
   color: rgb(127, 206, 255);
@@ -167,62 +173,75 @@ header nav a:hover {
 
 #trBackgroud {
   background: #4e4e4e;
-} 
+}
 
 
-  
-  /** LIST PLAYERS **/
-  .playerTable {
-       margin-left: auto;
-       margin-right: auto;
-       z-index: 2;
-       left: 50%;
-       top: 50%;
-       width: 60%;
-       border-collapse: collapse;
-       border-spacing: 0;
-       border-radius: 12px 12px 0 0;
-       overflow: hidden;
-       box-shadow: 0 2px 12px rgba(32, 32, 32, .3);
-       background: #fafafa;
-       text-align: center;
-  }
 
-  .tableHead {
-    background: #728ec3;
-    color: #fafafa;
-    text-transform: uppercase;
-  }
+/** LIST PLAYERS **/
+.playerTable {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 60px;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  width: 60%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(32, 32, 32, .3);
+  background: #fafafa;
+  text-align: center;
+}
 
-  .tableHead, .tableData {
-    padding: 12px 15px;
-  }
+.tableHead {
+  background: #728ec3;
+  color: #fafafa;
+  text-transform: uppercase;
+}
 
-  tr:nth-child(odd){
-    background: #eeeeee;
-  }
+.tableHead,
+.tableData {
+  padding: 12px 15px;
+}
 
-  .delete-btn{
-	padding:6px 8px;
-    border:1px solid #95bac1;
-	border-radius:5px;
-	background-color: rgb(127, 206, 255);
-    color: #fff;
-	text-decoration:none;
-	text-transform:uppercase;
-	text-align:center;
-	box-shadow:1px 1px 1px rgb(39, 52, 65);
-	display:inline-block;
-    font-family:Verdana,Helvetica;
+tr:nth-child(odd) {
+  background: #eeeeee;
+}
+
+.delete-btn {
+  padding: 6px 8px;
+  border: 1px solid #95bac1;
+  border-radius: 5px;
+  background-color: rgb(127, 206, 255);
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+  box-shadow: 1px 1px 1px rgb(39, 52, 65);
+  display: inline-block;
+  font-family: Verdana, Helvetica;
 
 }
 
-.delete-btn:hover{
-    background-color: transparent;
-    border: 2px solid rgb(127, 206, 255);
-    color: rgb(127, 206, 255);
+.delete-btn:hover {
+  background-color: transparent;
+  border: 2px solid rgb(127, 206, 255);
+  color: rgb(127, 206, 255);
 }
 
+.turnsPlayers {
+  width: 90%;
+  max-width: 1000px;
+  margin: auto;
+  overflow: hidden;
+  color: white;
+  font-size: 40px;
+  line-height: 200px;
+  float: left;
+  padding-left: 20%;
+}
 
 
 /** INPUT DE HANGMAN**/
@@ -250,12 +269,13 @@ header nav a:hover {
   border-radius: 4px;
   margin-bottom: 15px;
   border: 1px solid #1f53c5;
-  
+
 }
 
 .btnStart {
   width: 10%;
-  background-color: rgb(127, 206, 255);;
+  background-color: rgb(127, 206, 255);
+  ;
   padding: 10px;
   border-radius: 4px;
   color: white;
@@ -268,18 +288,19 @@ header nav a:hover {
 
 .btnControls {
   width: 85%;
-  background-color: rgb(127, 206, 255);;
+  background-color: rgb(127, 206, 255);
+  ;
   padding: 10px;
   border-radius: 4px;
   color: white;
   margin-bottom: 5px;
   border: 1px solid #1f53c5;
   font-size: 18px;
-  
-  
+
+
 }
 
-.btnControls:hover{
+.btnControls:hover {
   background-color: transparent;
   border: 2px solid rgb(127, 206, 255);
   color: rgb(127, 206, 255);
@@ -296,6 +317,7 @@ header nav a:hover {
 .labelName {
   position: relative;
 }
+
 .inputName {
   width: 85%;
   color: white;
@@ -304,12 +326,13 @@ header nav a:hover {
   border-radius: 4px;
   margin-bottom: 15px;
   border: 1px solid #1f53c5;
-  
+
 }
 
 .btnCreate {
   width: 40%;
-  background-color: rgb(127, 206, 255);;
+  background-color: rgb(127, 206, 255);
+  ;
   padding: 7px;
   border-radius: 4px;
   color: white;
@@ -319,7 +342,7 @@ header nav a:hover {
   transform: translateX(80%);
 }
 
-.btnCreate:hover{
+.btnCreate:hover {
   background-color: transparent;
   border: 2px solid rgb(127, 206, 255);
   color: rgb(127, 206, 255);
@@ -386,4 +409,3 @@ header nav a:hover {
 }
 
 /**Checkboxs**/
-
