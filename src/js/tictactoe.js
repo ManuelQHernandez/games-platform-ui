@@ -13,6 +13,10 @@ const MAX_NUMBER_OF_PLAYERS = 2;
 let checkBoxes = [];
 let selectedPlayers = [];
 let currentPlayer;
+let currentIdRound;
+let currentPiece;
+let playerX;
+let playerO;
 
 function showPlayers() {
     const requestOptions = {
@@ -80,9 +84,10 @@ function createNewTurn(player1, player2) {
         .then(response => response.json())
         .then(result => {
             currentPlayer = result.turn;
+            currentIdRound = result.idRound;
             playerName.innerText = currentPlayer.name;
+            console.log(result);
         })
-        .then(json => console.log(json))
 }
 
 function hideElements() {
@@ -90,30 +95,71 @@ function hideElements() {
     listPlayers.style.display = 'none';
     turnBanner.style.display = 'flex';
     board.style.display = 'flex';
-
 }
 
 turnBanner.style.display = 'none';
 board.style.display = 'none';
 
+function selectSquare(event) {
+    let x = event.target.dataset.row;
+    let y = event.target.dataset.column;
 
-function createNewMovement(idRound, player, position) {
+    playerX = selectedPlayers[0].value;
+    playerO = selectedPlayers[1].value;
+
+    if (currentPlayer.idPlayer == playerX) {
+        let idPiece = 1;
+        let name = 'X';
+        currentPiece = {
+            idPiece, name
+        };
+    } else if (currentPlayer.idPlayer == playerO) {
+        let idPiece = 2;
+        let name = 'O';
+        currentPiece = {
+            idPiece, name
+        };
+    }
+
+    var position = {
+        x, y
+    };
+
+    createNewMovement(currentIdRound, currentPlayer, position, currentPiece);
+    putPiece(x, y, currentPiece);
+}
+
+function putPiece(x, y, piece) {
+    var positionPutPiece = document.getElementById(x + y);
+
+    if (x == undefined && y == undefined) {
+        alert('This possitin is not valid')
+    }
+    else {
+        positionPutPiece.setAttribute("src", "src/assets/ttt/" + piece.name + ".png");
+    }
+}
+
+function changePiece(piece) {
+    if ((piece.idPiece == 1) && (piece.name == 'X')) {
+        piece.idPiece = 2;
+        piece.name = 'O';
+    } else {
+        piece.idPiece = 1;
+        piece.name = 'X';
+    }
+}
+
+function createNewMovement(idRound, player, position, piece) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-        "ticTacToePlayer": {
-            "player": {
-                "idPlayer": player,
-            },
-            "piece": {
-                "idPiece": 1,
-                "name": "X"
-            }
+        "ticTacToePlayer":
+        {
+            player, piece
         },
-        "position": {
-            position
-        }
+        position
     });
 
     var requestOptions = {
@@ -122,20 +168,15 @@ function createNewMovement(idRound, player, position) {
         body: raw
     };
 
-    fetch(URL_TTT + 1, requestOptions)
+    fetch(URL_TTT + idRound, requestOptions)
         .then(response => response.json())
         .then(result => {
             currentPlayer = result.turn;
-            playerName.innerText = " " + currentPlayer.name;
+            currentIdRound = result.idRound;
+            playerName.innerText = currentPlayer.name;
+            console.log(result);
         })
         .catch(error => console.log('error', error));
-}
-
-function selectSquare(event) {
-    createNewMovement()
-    console.log(event.target.dataset.column);
-    console.log(event.target.dataset.row);
-    squares.disabled = false;
 }
 
 showPlayers();
