@@ -13,6 +13,8 @@ const secretWordForm = document.getElementById('secret-word-form');
 const secretWordInput = document.getElementById('secret-word-input');
 const giveSecretWordBtn = document.getElementById('give-secret-word-btn');
 const hangedManBoard = document.getElementById('hanged-man-board');
+const secretWordDisplay = document.getElementById('secret-word-display');
+const hangedMan = document.getElementById('hanged-man');
 const letterForm = document.getElementById('letter-form');
 const letterInput = document.getElementById('letter-input');
 const giveLetterBtn = document.getElementById('give-letter-btn');
@@ -91,7 +93,6 @@ function createNewTurn(player1, player2) {
             currentPlayer = result.round.turn;
             currentIdRound = result.round.idRound;
             playerName.innerText = currentPlayer.name;
-            secretWordForm.style.display = 'block';
         });
 }
 
@@ -163,9 +164,22 @@ function chooseOption(secretWord, player, option) {
             playerName.innerText = currentPlayer.name;
             if (result.secretWord != null) {
                 secretWordForm.style.display = 'none';
+                hangedManBoard.style.display = 'flex';
                 letterForm.style.display = 'block';
             }
             console.log(result);
-        });
+            return result;
+        })
+        .then(result => displaySecretWord(result.secretWord));
+}
 
+function displaySecretWord(secretWord = []) {
+    const letters = secretWord
+        .map(letter => {
+            return `
+                <span class='letter-display'>${letter.isShown ? letter.character : ''}</span>
+            `;
+        })
+        .join('');
+    secretWordDisplay.innerHTML = letters;
 }

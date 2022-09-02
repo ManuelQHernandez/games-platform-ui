@@ -251,7 +251,7 @@ tr:nth-child(odd) {
 }
 
 #hanged-man-panel {
-  width: 440px;
+  max-width: 600px;
   background: #24303c;
   padding: 15px;
   margin: auto;
@@ -262,6 +262,31 @@ tr:nth-child(odd) {
   flex-direction: column;
 }
 
+#hanged-man-board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#hanged-man {
+  width: 50%;
+  height: 250px;
+}
+
+#secret-word-display {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.letter-display {
+  width: 20px;
+  height: 35px;
+  margin: 0 5px;
+  font-size: 30px;
+  border-bottom: 2px solid #FFF;
+}
+
 .controls {
   width: 100%;
   color: white;
@@ -270,7 +295,8 @@ tr:nth-child(odd) {
   border-radius: 4px;
   margin-bottom: 15px;
   border: 1px solid #1f53c5;
-
+  text-align: center;
+  font-size: 25px;
 }
 
 .btnStart {
@@ -296,8 +322,6 @@ tr:nth-child(odd) {
   margin-bottom: 5px;
   border: 1px solid #1f53c5;
   font-size: 18px;
-
-
 }
 
 .btnControls:hover {
