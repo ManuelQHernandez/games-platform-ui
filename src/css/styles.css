@@ -248,19 +248,20 @@ tr:nth-child(odd) {
   position: relative;
 }
 
-.panelInput {
+#hanged-man-panel {
   width: 440px;
   background: #24303c;
   padding: 15px;
-  margin: 5% auto;
+  margin: auto;
   margin-top: 45px;
   border-radius: 4px;
   color: white;
   display: flex;
+  flex-direction: column;
 }
 
 .controls {
-  width: 85%;
+  width: 100%;
   color: white;
   background: #24303c;
   padding: 10px;
@@ -273,7 +274,6 @@ tr:nth-child(odd) {
 .btnStart {
   width: 10%;
   background-color: rgb(127, 206, 255);
-  ;
   padding: 10px;
   border-radius: 4px;
   color: white;
@@ -285,7 +285,7 @@ tr:nth-child(odd) {
 }
 
 .btnControls {
-  width: 85%;
+  width: 100%;
   background-color: rgb(127, 206, 255);
   ;
   padding: 10px;

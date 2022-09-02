@@ -1,24 +1,52 @@
+// const URL_TODOS = 'https://jsonplaceholder.typicode.com/todos/';
+const URL_ROUNDS = 'http://localhost:8080/api/hm/';//-------------------------------------------
+const URL_PLAYERS = 'http://localhost:8080/api/players/';
+
 const players = document.querySelector('#players tbody');
 const startGameBtn = document.querySelector('#startGame');
-const URL_TODOS = 'https://jsonplaceholder.typicode.com/todos/';
-const MAX_NUMBER_OF_PLAYERS = 2;
+const listPlayers = document.getElementById('players');
+const turnBanner = document.getElementById('playerTurn');
+const playerName = document.getElementById('currentPlayerName');
+//-----------------------------------------------------------------------------
+const hangedManPanel = document.getElementById('hanged-man-panel');
+const secretWordForm = document.getElementById('secret-word-form');
+const secretWordInput = document.getElementById('secret-word-input');
+const giveSecretWordBtn = document.getElementById('give-secret-word-btn');
+const hangedManBoard = document.getElementById('hanged-man-board');
+const letterForm = document.getElementById('letter-form');
+const letterInput = document.getElementById('letter-input');
+const giveLetterBtn = document.getElementById('give-letter-btn');
+//-----------------------------------------------------------------------------
+
+const NUMBER_OF_PLAYERS = 2;
+
 let checkBoxes = [];
 let selectedPlayers = [];
+let currentPlayer;
+let currentIdRound;
+
+turnBanner.style.display = 'none';
+//-----------------------------------------------------------------------------
+hangedManPanel.style.display = 'none';
+secretWordForm.style.display = 'none';
+hangedManBoard.style.display = 'none';
+letterForm.style.display = 'none';
+//-----------------------------------------------------------------------------
 
 function showPlayers() {
     const requestOptions = {
-        method: "GET",
+        method: "GET"
     };
-    fetch(URL_TODOS, requestOptions)
+    fetch(URL_PLAYERS, requestOptions)
         .then((response) => response.json())
         .then((json) => {
             return json
                 .map((element) => {
                     return `
-                            <tr id="${element.id}">
-                                <td class="tableData">${element.title.slice(0, 10)}</td>
+                            <tr id="${element.idPlayer}">
+                                <td class="tableData">${element.name}</td>
                                 <td>
-                                    <input class="option-input" type="checkbox" value=${element.id} name="playerSelected">
+                                    <input class="option-input" type="checkbox" value=${element.idPlayer} name="playerSelected">
                                 </td>
                             </tr>
                             `;
@@ -33,34 +61,111 @@ function showPlayers() {
 
 function checkCheckBoxes() {
     const numberOfPlayers = [...checkBoxes].filter(checkbox => checkbox.checked).length;
-    if (numberOfPlayers >= MAX_NUMBER_OF_PLAYERS) 
+    if (numberOfPlayers >= NUMBER_OF_PLAYERS)
         checkBoxes.forEach(checkbox => !checkbox.checked ? checkbox.disabled = true : "");
-    else     
+    else
         checkBoxes.forEach(checkbox => checkbox.disabled = false);
-}        
+}
 
 function startGameHandler() {
     selectedPlayers = [...checkBoxes].filter(checkBox => checkBox.checked);
-    if (selectedPlayers.length !== MAX_NUMBER_OF_PLAYERS) return;
+    if (selectedPlayers.length !== NUMBER_OF_PLAYERS) return;
     const [player1, player2] = [...selectedPlayers];
     createNewTurn(player1.value, player2.value);
-}    
+}
 
 function createNewTurn(player1, player2) {
-    const formdata = new FormData();
-    formdata.append("player1", player1);
-    formdata.append("player2", player2);
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var raw = JSON.stringify([{ "idPlayer": player1 }, { "idPlayer": player2 }]);
 
     const requestOptions = {
         method: "POST",
-        body: formdata,
-    };    
+        body: raw,
+        headers: myHeaders
+    };
 
-    fetch(URL_TODOS, requestOptions)
+    fetch(URL_ROUNDS, requestOptions)
         .then(response => response.json())
-        .then(json => console.log(json));
-}        
+        .then(result => {
+            currentPlayer = result.round.turn;
+            currentIdRound = result.round.idRound;
+            playerName.innerText = currentPlayer.name;
+            secretWordForm.style.display = 'block';
+        });
+}
+
+function validatePlayersBeforeStart() {
+    const numberOfPlayers = [...checkBoxes].filter(checkbox => checkbox.checked).length;
+    if (numberOfPlayers < NUMBER_OF_PLAYERS) {
+        alert("You need to choose two players");
+    }
+    else {
+        startGameBtn.style.display = 'none';
+        listPlayers.style.display = 'none';
+        turnBanner.style.display = 'flex';
+        hangedManPanel.style.display = 'flex';//------------------------------------------------------------
+        secretWordForm.style.display = 'block';//------------------------------------------------------------
+    }
+}
 
 startGameBtn.addEventListener('click', startGameHandler);
+startGameBtn.addEventListener('click', validatePlayersBeforeStart);
+giveSecretWordBtn.addEventListener('click', handleChooseOption);
+giveLetterBtn.addEventListener('click', handleChooseOption);
 
 showPlayers();
+
+//-------------------------------------------------------------------------------------------
+
+function handleChooseOption(e) {
+    let secretWord;
+    let option;
+    if (e.target === giveSecretWordBtn) {
+        secretWord = secretWordInput.value;
+        option = 'secretWord';
+    } else if (e.target === giveLetterBtn) {
+        secretWord = letterInput.value;
+        option = 'letter';
+    }
+    chooseOption(secretWord, currentPlayer, option);
+}
+
+function chooseOption(secretWord, player, option) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const letters = secretWord
+        .split('')
+        .map((letter, index) => {
+            return {
+                "idHangManRound": currentIdRound,
+                "character": letter,
+                "position": (index + 1),
+                "isShown": false
+            };
+        });
+
+    console.log(letters);
+
+    var raw = JSON.stringify({ player, letters });
+
+    const requestOptions = {
+        method: "POST",
+        body: raw,
+        headers: myHeaders
+    };
+
+    fetch(URL_ROUNDS + currentIdRound + `/${option}/`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            currentPlayer = result.round.turn;
+            playerName.innerText = currentPlayer.name;
+            if (result.secretWord != null) {
+                secretWordForm.style.display = 'none';
+                letterForm.style.display = 'block';
+            }
+            console.log(result);
+        });
+
+}
