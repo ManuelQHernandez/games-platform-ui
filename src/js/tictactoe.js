@@ -1,5 +1,6 @@
 const players = document.querySelector('#players tbody');
 const startGameBtn = document.querySelector('#startGame');
+const restartGameBtn = document.getElementById('restartGame');
 const listPlayers = document.getElementById('players');
 const turnBanner = document.getElementById('playerTurn');
 const playerName = document.getElementById('currentPlayerName');
@@ -16,7 +17,7 @@ let currentPlayer;
 let currentIdRound;
 let currentPiece;
 let playerX;
-let playerO;
+let winnerPlayer;
 
 function showPlayers() {
     const requestOptions = {
@@ -59,7 +60,6 @@ function startGameHandler() {
     if (selectedPlayers.length !== MAX_NUMBER_OF_PLAYERS) return;
     const [player1, player2] = [...selectedPlayers];
     createNewTurn(player1.value, player2.value);
-
 }
 
 function createNewTurn(player1, player2) {
@@ -83,11 +83,19 @@ function createNewTurn(player1, player2) {
     fetch(URL_TTT, requestOptions)
         .then(response => response.json())
         .then(result => {
-            currentPlayer = result.turn;
-            currentIdRound = result.idRound;
+            currentPlayer = result.round.turn;
+            playerX = currentPlayer;
+            currentIdRound = result.round.idRound;
             playerName.innerText = currentPlayer.name;
             console.log(result);
         })
+}
+
+function checkWinner(result) {
+    winnerPlayer = result.round.winner;
+    console.log(winnerPlayer);
+    restartGameBtn.style.display = 'flex';
+    restartGameBtn.setAttribute("onClick", "window.location.reload();");
 }
 
 function hideElements() {
@@ -95,27 +103,28 @@ function hideElements() {
     listPlayers.style.display = 'none';
     turnBanner.style.display = 'flex';
     board.style.display = 'flex';
+    restartGameBtn.style.display = 'flex';
 }
 
 turnBanner.style.display = 'none';
 board.style.display = 'none';
+restartGameBtn.style.display = 'none';
 
 function selectSquare(event) {
     let x = event.target.dataset.row;
     let y = event.target.dataset.column;
+    let idPiece;
+    let name;
 
-    playerX = selectedPlayers[0].value;
-    playerO = selectedPlayers[1].value;
-
-    if (currentPlayer.idPlayer == playerX) {
-        let idPiece = 1;
-        let name = 'X';
+    if (playerX.idPlayer == currentPlayer.idPlayer) {
+        idPiece = 2;
+        name = "O";
         currentPiece = {
             idPiece, name
         };
-    } else if (currentPlayer.idPlayer == playerO) {
-        let idPiece = 2;
-        let name = 'O';
+    } else {
+        idPiece = 1;
+        name = "X";
         currentPiece = {
             idPiece, name
         };
@@ -140,16 +149,6 @@ function putPiece(x, y, piece) {
     }
 }
 
-function changePiece(piece) {
-    if ((piece.idPiece == 1) && (piece.name == 'X')) {
-        piece.idPiece = 2;
-        piece.name = 'O';
-    } else {
-        piece.idPiece = 1;
-        piece.name = 'X';
-    }
-}
-
 function createNewMovement(idRound, player, position, piece) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -171,10 +170,11 @@ function createNewMovement(idRound, player, position, piece) {
     fetch(URL_TTT + idRound, requestOptions)
         .then(response => response.json())
         .then(result => {
-            currentPlayer = result.turn;
-            currentIdRound = result.idRound;
+            currentPlayer = result.round.turn;
+            currentIdRound = result.round.idRound;
             playerName.innerText = currentPlayer.name;
             console.log(result);
+            checkWinner(result);
         })
         .catch(error => console.log('error', error));
 }
