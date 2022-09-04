@@ -268,9 +268,23 @@ tr:nth-child(odd) {
   align-items: center;
 }
 
-#hanged-man {
-  width: 50%;
-  height: 250px;
+.game-container {
+  padding: 20px 30px;
+  position: relative;
+  margin: auto;
+  height: 350px;
+  width: 450px;
+}
+
+.figure-container {
+  fill: transparent;
+  stroke: #fff;
+  stroke-width: 3px;
+  stroke-linecap: round;
+}
+
+.figure-part {
+  display: none;
 }
 
 #secret-word-display {

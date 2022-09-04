@@ -130,6 +130,9 @@ function handleChooseOption(e) {
         option = 'letter';
     }
     chooseOption(secretWord, currentPlayer, option);
+    secretWordInput.value = '';
+    letterInput.value = '';
+    letterInput.focus();
 }
 
 function chooseOption(secretWord, player, option) {
@@ -168,6 +171,18 @@ function chooseOption(secretWord, player, option) {
                 letterForm.style.display = 'block';
             }
             console.log(result);
+            return result;
+        })
+        .then(result => {
+            const figureParts = document.querySelectorAll('.figure-part');
+            const failedAttempts = result.failedAttempts;
+            figureParts.forEach((part, index) => {
+                if (index < failedAttempts) {
+                    part.style.display = 'block';
+                } else {
+                    part.style.display = 'none';
+                }
+            });
             return result;
         })
         .then(result => displaySecretWord(result.secretWord));
