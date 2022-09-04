@@ -2,12 +2,16 @@
 const URL_ROUNDS = 'http://localhost:8080/api/hm/';//-------------------------------------------
 const URL_PLAYERS = 'http://localhost:8080/api/players/';
 
+const welcome = document.getElementById('welcome');
+const turn = document.getElementById('turn');
 const players = document.querySelector('#players tbody');
 const startGameBtn = document.querySelector('#startGame');
 const listPlayers = document.getElementById('players');
-const turnBanner = document.getElementById('playerTurn');
-const playerName = document.getElementById('currentPlayerName');
+const currentPlayerName = document.getElementById('current-player-name');
 //-----------------------------------------------------------------------------
+const playersTurns = document.getElementById('players-turns');
+const giverName = document.getElementById('giver-name');
+const guesserName = document.getElementById('guesser-name');
 const hangedManPanel = document.getElementById('hanged-man-panel');
 const secretWordForm = document.getElementById('secret-word-form');
 const secretWordInput = document.getElementById('secret-word-input');
@@ -27,8 +31,9 @@ let selectedPlayers = [];
 let currentPlayer;
 let currentIdRound;
 
-turnBanner.style.display = 'none';
+turn.style.display = 'none';
 //-----------------------------------------------------------------------------
+playersTurns.style.display = 'none';
 hangedManPanel.style.display = 'none';
 secretWordForm.style.display = 'none';
 hangedManBoard.style.display = 'none';
@@ -47,6 +52,7 @@ function showPlayers() {
                     return `
                             <tr id="${element.idPlayer}">
                                 <td class="tableData">${element.name}</td>
+                                <td class="tableData">${element.typePlayer.name}</td>
                                 <td>
                                     <input class="option-input" type="checkbox" value=${element.idPlayer} name="playerSelected">
                                 </td>
@@ -90,23 +96,36 @@ function createNewTurn(player1, player2) {
     fetch(URL_ROUNDS, requestOptions)
         .then(response => response.json())
         .then(result => {
-            currentPlayer = result.round.turn;
-            currentIdRound = result.round.idRound;
-            playerName.innerText = currentPlayer.name;
+            assignTurnData(result.round);
+            changeTurnLabels();
         });
+}
+
+function assignTurnData(round) {
+    currentPlayer = round.turn;
+    currentIdRound = round.idRound;
+    giverName.innerText = round.player1.name;
+    guesserName.innerHTML = round.player2.name;
+    currentPlayerName.innerText = currentPlayer.name;
+}
+
+function changeTurnLabels() {
+    welcome.style.display = 'none';
+    playersTurns.style.display = 'block';
+    startGameBtn.style.display = 'none';
+    listPlayers.style.display = 'none';
+    setTimeout(() => {
+        playersTurns.style.display = 'none';
+        turn.style.display = 'flex';
+        hangedManPanel.style.display = 'flex';//------------------------------------------------------------
+        secretWordForm.style.display = 'block';//------------------------------------------------------------
+    }, 10000);
 }
 
 function validatePlayersBeforeStart() {
     const numberOfPlayers = [...checkBoxes].filter(checkbox => checkbox.checked).length;
     if (numberOfPlayers < NUMBER_OF_PLAYERS) {
         alert("You need to choose two players");
-    }
-    else {
-        startGameBtn.style.display = 'none';
-        listPlayers.style.display = 'none';
-        turnBanner.style.display = 'flex';
-        hangedManPanel.style.display = 'flex';//------------------------------------------------------------
-        secretWordForm.style.display = 'block';//------------------------------------------------------------
     }
 }
 
@@ -164,7 +183,7 @@ function chooseOption(secretWord, player, option) {
         .then(response => response.json())
         .then(result => {
             currentPlayer = result.round.turn;
-            playerName.innerText = currentPlayer.name;
+            currentPlayerName.innerText = currentPlayer.name;
             if (result.secretWord != null) {
                 secretWordForm.style.display = 'none';
                 hangedManBoard.style.display = 'flex';

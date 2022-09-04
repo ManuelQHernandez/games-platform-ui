@@ -11,23 +11,27 @@
 
 <body>
 
-    <header class="Header-msg">
-        <div class="turnsPlayers" id="playerTurn">
-            <h5>It's your turn <span id="currentPlayerName"> </span>
-            </h5>
+    <header class="header">
+        <div id="welcome">
+            <h1 class="title">Welcome to HangMan!</h1>
+            <h2 class="subtitle">Let's choose some players</h2>
+        </div>
+        <div id="players-turns">
+            <h5 class="title">Giver:    <span class="player-name" id="giver-name"></span></h5>
+            <h5 class="title">Guesser:  <span class="player-name" id="guesser-name"></span></h5>
+        </div>
+        <div id="turn">
+            <h5 class="title">It's your turn <span class="player-name" id="current-player-name"></span></h5>
         </div>
     </header>
 
     <main>
 
-        <h2>
-            Choose players:
-        </h2>
-
         <table class="playerTable" id="players">
             <thead>
                 <tr>
                     <th class="tableHead">Name</th>
+                    <th class="tableHead">Type</th>
                     <th class="tableHead">Select</th>
                 </tr>
             </thead>
