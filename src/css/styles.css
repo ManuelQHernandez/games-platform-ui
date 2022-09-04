@@ -372,12 +372,21 @@ tr:nth-child(odd) {
   justify-content: center;
 }
 
-.letter-display {
+.letter-display,
+#selected-letter {
   width: 20px;
   height: 35px;
-  margin: 0 5px;
   font-size: 30px;
+}
+
+.letter-display {
   border-bottom: 2px solid #FFF;
+  margin: 0 5px;
+}
+
+#selected-letter {
+  margin: auto;
+  margin-bottom: 10px;
 }
 
 .controls {

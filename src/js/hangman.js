@@ -21,6 +21,7 @@ const giveSecretWordBtn = document.getElementById('give-secret-word-btn');
 const hangedManBoard = document.getElementById('hanged-man-board');
 const secretWordDisplay = document.getElementById('secret-word-display');
 const hangedMan = document.getElementById('hanged-man');
+const selectedLetter = document.getElementById('selected-letter');
 const letterForm = document.getElementById('letter-form');
 const letterInput = document.getElementById('letter-input');
 const giveLetterBtn = document.getElementById('give-letter-btn');
@@ -34,12 +35,13 @@ let currentPlayer;
 let currentIdRound;
 
 turn.style.display = 'none';
-//-----------------------------------------------------------------------------
 playersTurns.style.display = 'none';
 gameStatus.style.display = 'none';
+//-----------------------------------------------------------------------------
 hangedManPanel.style.display = 'none';
 secretWordForm.style.display = 'none';
 hangedManBoard.style.display = 'none';
+selectedLetter.style.display = 'none';
 letterForm.style.display = 'none';
 winner.style.display = 'none';
 //-----------------------------------------------------------------------------
@@ -143,16 +145,20 @@ showPlayers();
 //-------------------------------------------------------------------------------------------
 
 function handleChooseOption(e) {
-    let secretWord;
+    let chosenLetters;
     let option;
     if (e.target === giveSecretWordBtn) {
-        secretWord = secretWordInput.value;
+        chosenLetters = secretWordInput.value;
         option = 'secretWord';
     } else if (e.target === giveLetterBtn) {
-        secretWord = letterInput.value;
+        chosenLetters = letterInput.value;
+        selectedLetter.innerText = chosenLetters;
+        setTimeout(() => {
+            selectedLetter.innerText = '';
+        }, 3000);
         option = 'letter';
     }
-    chooseOption(secretWord, currentPlayer, option);
+    chooseOption(chosenLetters, currentPlayer, option);
     secretWordInput.value = '';
     letterInput.value = '';
     letterInput.focus();
@@ -188,6 +194,7 @@ function chooseOption(secretWord, player, option) {
             currentPlayerName.innerText = currentPlayer.name;
             if (result.secretWord != null) {
                 secretWordForm.style.display = 'none';
+                selectedLetter.style.display = 'block';//------------------------------------------------------------
                 hangedManBoard.style.display = 'flex';
                 letterForm.style.display = 'block';
             }
@@ -208,6 +215,7 @@ function chooseOption(secretWord, player, option) {
         })
         .then(result => {
             displaySecretWord(result.secretWord);
+            selectedLetter.style.display = 'block';
             return result;
         })
         .then(result => {
