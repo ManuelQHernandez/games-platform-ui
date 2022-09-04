@@ -8,8 +8,10 @@ const players = document.querySelector('#players tbody');
 const startGameBtn = document.querySelector('#startGame');
 const listPlayers = document.getElementById('players');
 const currentPlayerName = document.getElementById('current-player-name');
-//-----------------------------------------------------------------------------
+const gameStatus = document.getElementById('game-status');
+const winner = document.getElementById('winner');
 const playersTurns = document.getElementById('players-turns');
+//-----------------------------------------------------------------------------
 const giverName = document.getElementById('giver-name');
 const guesserName = document.getElementById('guesser-name');
 const hangedManPanel = document.getElementById('hanged-man-panel');
@@ -34,10 +36,12 @@ let currentIdRound;
 turn.style.display = 'none';
 //-----------------------------------------------------------------------------
 playersTurns.style.display = 'none';
+gameStatus.style.display = 'none';
 hangedManPanel.style.display = 'none';
 secretWordForm.style.display = 'none';
 hangedManBoard.style.display = 'none';
 letterForm.style.display = 'none';
+winner.style.display = 'none';
 //-----------------------------------------------------------------------------
 
 function showPlayers() {
@@ -119,7 +123,7 @@ function changeTurnLabels() {
         turn.style.display = 'flex';
         hangedManPanel.style.display = 'flex';//------------------------------------------------------------
         secretWordForm.style.display = 'block';//------------------------------------------------------------
-    }, 10000);
+    }, 5000);
 }
 
 function validatePlayersBeforeStart() {
@@ -169,8 +173,6 @@ function chooseOption(secretWord, player, option) {
             };
         });
 
-    console.log(letters);
-
     var raw = JSON.stringify({ player, letters });
 
     const requestOptions = {
@@ -204,7 +206,26 @@ function chooseOption(secretWord, player, option) {
             });
             return result;
         })
-        .then(result => displaySecretWord(result.secretWord));
+        .then(result => {
+            displaySecretWord(result.secretWord);
+            return result;
+        })
+        .then(result => {
+            const round = result.round;
+            if (round.finished) {
+                gameStatus.style.display = 'block';
+                gameStatus.innerText = 'Game Over!';
+                winner.innerText = 'Winner is ' + round.winner.name;
+                winner.style.display = 'block';
+                playersTurns.style.display = 'none';
+                letterForm.style.display = 'none';
+                if (result.failedAttempts >= result.max_NUMBER_OF_ATTEMPTS) {
+                    secretWordDisplay.style.display = 'none';
+                } else {
+                    hangedMan.style.display = 'none';
+                }
+            }
+        });
 }
 
 function displaySecretWord(secretWord = []) {

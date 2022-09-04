@@ -12,6 +12,7 @@
 <body>
 
     <header class="header">
+        <a class="back-button" href="index.html">Back to Menu</a>
         <div id="welcome">
             <h1 class="title">Welcome to HangMan!</h1>
             <h2 class="subtitle">Let's choose some players</h2>
@@ -47,6 +48,7 @@
                     <input class="btnControls" type="button" value="Submit" id="give-secret-word-btn">
                 </label>
             </form>
+            <div id="game-status" class="subtitle"></div>
             <div id="hanged-man-board">
                 <div id="hanged-man">
                     <svg height="250px" width="200" class="figure-container">
@@ -74,6 +76,7 @@
                 </div>
                 <div id="secret-word-display"></div>
             </div>
+            <div id="winner" class="subtitle"></div>
             <form id="letter-form">
                 <label>
                     <input class="controls" type="text" placeholder="Enter letter" id="letter-input">

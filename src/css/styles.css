@@ -28,12 +28,34 @@ h2 {
   line-height: 40px;
 }
 
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
 .header {
   width: 100%;
   box-sizing: border-box;
   background: rgba(0, 0, 0, 0.5);
   margin-bottom: 20px;
   overflow: hidden;
+}
+
+.back-button {
+  display: block;
+  line-height: 40px;
+  margin: 25px auto;
+  border: solid 1px #FFF;
+  border-radius: 15px;
+  width: 150px;
+  text-align: center;
+}
+
+.back-button:hover {
+  background-color: #95bac1;
 }
 
 .wrapper {
@@ -88,7 +110,7 @@ header nav a:hover {
 }
 
 .subtitle {
-  margin-top: 5px;
+  /* margin-top: 5px; */
   font-size: 17px;
   color: rgb(170, 50, 50);
   word-spacing: 1px;
@@ -100,7 +122,7 @@ header nav a:hover {
   display: grid;
   grid-template-columns: 1fr max-content 1fr;
   grid-template-rows: 27px 0;
-  grid-gap: 20px;
+  grid-gap: 0 20px;
   align-items: center;
 }
 
