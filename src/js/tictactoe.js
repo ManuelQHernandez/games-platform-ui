@@ -6,6 +6,7 @@ const turnBanner = document.getElementById('playerTurn');
 const playerName = document.getElementById('currentPlayerName');
 const squares = document.querySelectorAll('.Square');
 const board = document.getElementById('board');
+const showWinnerPlayer = document.getElementById('winner');
 
 const URL_PLAYERS = 'http://localhost:8080/api/players/';
 const URL_TTT = 'http://localhost:8080/api/ttt/';
@@ -17,7 +18,6 @@ let currentPlayer;
 let currentIdRound;
 let currentPiece;
 let playerX;
-let winnerPlayer;
 
 function showPlayers() {
     const requestOptions = {
@@ -91,19 +91,13 @@ function createNewTurn(player1, player2) {
         })
 }
 
-function checkWinner(result) {
-    winnerPlayer = result.round.winner;
-    console.log(winnerPlayer);
-    restartGameBtn.style.display = 'flex';
-    restartGameBtn.setAttribute("onClick", "window.location.reload();");
-}
-
 function hideElements() {
     startGameBtn.style.display = 'none';
     listPlayers.style.display = 'none';
     turnBanner.style.display = 'flex';
     board.style.display = 'flex';
     restartGameBtn.style.display = 'flex';
+    restartGameBtn.setAttribute("onClick", "location.reload()");
 }
 
 turnBanner.style.display = 'none';
@@ -117,14 +111,14 @@ function selectSquare(event) {
     let name;
 
     if (playerX.idPlayer == currentPlayer.idPlayer) {
-        idPiece = 2;
-        name = "O";
+        idPiece = 1;
+        name = "X";
         currentPiece = {
             idPiece, name
         };
     } else {
-        idPiece = 1;
-        name = "X";
+        idPiece = 2;
+        name = "O";
         currentPiece = {
             idPiece, name
         };
@@ -171,12 +165,18 @@ function createNewMovement(idRound, player, position, piece) {
         .then(response => response.json())
         .then(result => {
             currentPlayer = result.round.turn;
-            currentIdRound = result.round.idRound;
             playerName.innerText = currentPlayer.name;
             console.log(result);
-            checkWinner(result);
+            showWinner(result);
         })
         .catch(error => console.log('error', error));
+}
+
+function showWinner(res) {
+    if (res.round.winner != null) {
+        let winner = res.round.winner;
+        showWinnerPlayer.innerText = 'Congratulations ' + winner.name + ' you won this round';
+    }
 }
 
 showPlayers();
