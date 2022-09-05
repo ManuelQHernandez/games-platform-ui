@@ -7,6 +7,7 @@ const playerName = document.getElementById('currentPlayerName');
 const squares = document.querySelectorAll('.Square');
 const board = document.getElementById('board');
 const showWinnerPlayer = document.getElementById('winner');
+const welcome = document.getElementById('welcome');
 
 const URL_PLAYERS = 'http://localhost:8080/api/players/';
 const URL_TTT = 'http://localhost:8080/api/ttt/';
@@ -94,6 +95,7 @@ function createNewTurn(player1, player2) {
 function hideElements() {
     startGameBtn.style.display = 'none';
     listPlayers.style.display = 'none';
+    welcome.style.display = 'none';
     turnBanner.style.display = 'flex';
     board.style.display = 'flex';
     restartGameBtn.style.display = 'flex';

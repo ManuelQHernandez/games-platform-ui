@@ -11,23 +11,28 @@
 
 <body>
 
-    <header class="Header-msg">
-        <div class="turnsPlayers" id="playerTurn">
-            <h5>It's your turn <span id="currentPlayerName"> </span>
-            </h5>
+    <header class="header">
+        <a class="back-button" href="index.html">Back to Menu</a>
+        <div id="welcome">
+            <h1 class="title">Welcome to HangMan!</h1>
+            <h2 class="subtitle">Let's choose some players</h2>
+        </div>
+        <div id="players-turns">
+            <h5 class="title">Giver:    <span class="player-name" id="giver-name"></span></h5>
+            <h5 class="title">Guesser:  <span class="player-name" id="guesser-name"></span></h5>
+        </div>
+        <div id="turn">
+            <h5 class="title">It's your turn <span class="player-name" id="current-player-name"></span></h5>
         </div>
     </header>
 
     <main>
 
-        <h2>
-            Choose players:
-        </h2>
-
         <table class="playerTable" id="players">
             <thead>
                 <tr>
                     <th class="tableHead">Name</th>
+                    <th class="tableHead">Type</th>
                     <th class="tableHead">Select</th>
                 </tr>
             </thead>
@@ -43,10 +48,36 @@
                     <input class="btnControls" type="button" value="Submit" id="give-secret-word-btn">
                 </label>
             </form>
+            <div id="game-status" class="subtitle"></div>
             <div id="hanged-man-board">
-                <div id="hanged-man"></div>
-                <div id="secret-word"></div>
+                <div id="hanged-man">
+                    <svg height="250px" width="200" class="figure-container">
+                        <!-- Rod -->
+                        <line x1="60" y1="20" x2="60" y2="230" />
+                        <line x1="20" y1="230" x2="100" y2="230" />
+
+                        <line x1="60" y1="20" x2="140" y2="20" class="figure-part" />
+                        <line x1="140" y1="20" x2="140" y2="50" class="figure-part" />
+
+                        <!-- Head -->
+                        <circle cx="140" cy="70" r="20" class="figure-part" />
+                        <!-- Body -->
+                        <line x1="140" y1="90" x2="140" y2="150" class="figure-part" />
+                        <!-- Arms -->
+                        <line x1="140" y1="120" x2="120" y2="100" class="figure-part" />
+                        <line x1="140" y1="120" x2="160" y2="100" class="figure-part" />
+                        <!-- Legs -->
+                        <line x1="140" y1="150" x2="120" y2="180" class="figure-part" />
+                        <line x1="140" y1="150" x2="160" y2="180" class="figure-part" />
+                    </svg>
+                    <div class="hangman-word" id="hangman-word">
+                        <!-- display returned hangman string -->
+                    </div>
+                </div>
+                <div id="secret-word-display"></div>
             </div>
+            <div id="winner" class="subtitle"></div>
+            <div id="selected-letter"></div>
             <form id="letter-form">
                 <label>
                     <input class="controls" type="text" placeholder="Enter letter" id="letter-input">
