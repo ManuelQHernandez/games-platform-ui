@@ -1,5 +1,6 @@
-// const URL_TODOS = 'https://jsonplaceholder.typicode.com/todos/';
-const URL_ROUNDS = 'http://localhost:8080/api/hm/';//-------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------------------------BEGIN
+const URL_ROUNDS = 'http://localhost:8080/api/hm/';
+//-----------------------------------------------------------------------------------------------------------------------------------------------END
 const URL_PLAYERS = 'http://localhost:8080/api/players/';
 
 const welcome = document.getElementById('welcome');
@@ -11,7 +12,7 @@ const currentPlayerName = document.getElementById('current-player-name');
 const gameStatus = document.getElementById('game-status');
 const winner = document.getElementById('winner');
 const playersTurns = document.getElementById('players-turns');
-//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------------------------BEGIN
 const giverName = document.getElementById('giver-name');
 const guesserName = document.getElementById('guesser-name');
 const hangedManPanel = document.getElementById('hanged-man-panel');
@@ -25,7 +26,7 @@ const selectedLetter = document.getElementById('selected-letter');
 const letterForm = document.getElementById('letter-form');
 const letterInput = document.getElementById('letter-input');
 const giveLetterBtn = document.getElementById('give-letter-btn');
-//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------------------------END
 
 const NUMBER_OF_PLAYERS = 2;
 
@@ -34,43 +35,46 @@ let selectedPlayers = [];
 let currentPlayer;
 let currentIdRound;
 
-turn.style.display = 'none';
 playersTurns.style.display = 'none';
+turn.style.display = 'none';
 gameStatus.style.display = 'none';
-//-----------------------------------------------------------------------------
-hangedManPanel.style.display = 'none';
+winner.style.display = 'none';
+//-----------------------------------------------------------------------------------------------------------------------------------------------BEGIN
 secretWordForm.style.display = 'none';
 hangedManBoard.style.display = 'none';
-selectedLetter.style.display = 'none';
 letterForm.style.display = 'none';
-winner.style.display = 'none';
-//-----------------------------------------------------------------------------
+selectedLetter.style.display = 'none';
+hangedManPanel.style.display = 'none';
+//-----------------------------------------------------------------------------------------------------------------------------------------------END
+
+function sendHttpRequest(url, method = 'GET', body = {}, headers = {}) {
+    const requestOptions = method === 'GET' ? { method } : { method, body, headers };
+    return fetch(url, requestOptions)
+        .then(result => result.json());
+}
 
 function showPlayers() {
-    const requestOptions = {
-        method: "GET"
-    };
-    fetch(URL_PLAYERS, requestOptions)
-        .then((response) => response.json())
-        .then((json) => {
-            return json
-                .map((element) => {
-                    return `
-                            <tr id="${element.idPlayer}">
-                                <td class="tableData">${element.name}</td>
-                                <td class="tableData">${element.typePlayer.name}</td>
-                                <td>
-                                    <input class="option-input" type="checkbox" value=${element.idPlayer} name="playerSelected">
-                                </td>
-                            </tr>
-                            `;
-                })
-                .slice(0, 10)
-                .join("");
-        })
+    sendHttpRequest(URL_PLAYERS)
+        .then((result) => generatePlayersTableRows(result))
         .then(result => players.innerHTML = result)
         .then(() => checkBoxes = document.querySelectorAll('[name=playerSelected]'))
         .then(() => checkBoxes.forEach(checkBox => checkBox.addEventListener("click", checkCheckBoxes)));
+}
+
+function generatePlayersTableRows(json) {
+    return json
+        .map((element) => {
+            return `
+                    <tr id="${element.idPlayer}">
+                        <td class="tableData">${element.name}</td>
+                        <td class="tableData">${element.typePlayer.name}</td>
+                        <td>
+                            <input class="option-input" type="checkbox" value=${element.idPlayer} name="playerSelected">
+                        </td>
+                    </tr>
+                    `;
+        })
+        .join("");
 }
 
 function checkCheckBoxes() {
@@ -89,22 +93,32 @@ function startGameHandler() {
 }
 
 function createNewTurn(player1, player2) {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    var raw = JSON.stringify([{ "idPlayer": player1 }, { "idPlayer": player2 }]);
+    const body = JSON.stringify([{ "idPlayer": player1 }, { "idPlayer": player2 }]);
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
 
-    const requestOptions = {
-        method: "POST",
-        body: raw,
-        headers: myHeaders
-    };
+    sendHttpRequest(URL_ROUNDS, 'POST', body, headers)
+        .then(result => displayNextForm(result));
+}
 
-    fetch(URL_ROUNDS, requestOptions)
-        .then(response => response.json())
-        .then(result => {
-            assignTurnData(result.round);
-            changeTurnLabels();
-        });
+//-----------------------------------------------------------------------------------------------------------------------------------------------BEGIN
+// function giveRandomLetters() {
+//     const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+//     return setInterval(() => {
+//         console.log(intervalId);
+//         letterInput.value = alphabet[Math.floor(Math.random() * 26)];
+//         giveLetterBtn.dispatchEvent(event);
+//     }, 1000);
+// }
+
+function displayNextForm(result) {
+    assignTurnData(result.round);
+    displayPlayersTurns();
+    if (currentPlayer.typePlayer.name === 'Bot')
+        setTimeout(() => giveRandomWord(), 5000);
+    else
+        setTimeout(() => displaySecretWordForm(), 5000);
+    return result;
 }
 
 function assignTurnData(round) {
@@ -115,38 +129,34 @@ function assignTurnData(round) {
     currentPlayerName.innerText = currentPlayer.name;
 }
 
-function changeTurnLabels() {
+function giveRandomWord() {
+    const url = "https://random-words-api.vercel.app/word";
+    sendHttpRequest(url)
+        .then(result => {
+            secretWordInput.value = result[0].word.toLowerCase();
+            giveSecretWordBtn.dispatchEvent(new Event("click"));
+            displaySecretWordForm();
+            displayLettersForm();
+        })
+        .catch(error => console.log('error', error));
+}
+
+function displayPlayersTurns() {
     welcome.style.display = 'none';
     playersTurns.style.display = 'block';
     startGameBtn.style.display = 'none';
     listPlayers.style.display = 'none';
-    setTimeout(() => {
-        playersTurns.style.display = 'none';
-        turn.style.display = 'flex';
-        hangedManPanel.style.display = 'flex';//------------------------------------------------------------
-        secretWordForm.style.display = 'block';//------------------------------------------------------------
-    }, 5000);
 }
 
-function validatePlayersBeforeStart() {
-    const numberOfPlayers = [...checkBoxes].filter(checkbox => checkbox.checked).length;
-    if (numberOfPlayers < NUMBER_OF_PLAYERS) {
-        alert("You need to choose two players");
-    }
+function displaySecretWordForm() {
+    playersTurns.style.display = 'none';
+    turn.style.display = 'flex';
+    hangedManPanel.style.display = 'flex';
+    secretWordForm.style.display = 'block';
 }
-
-startGameBtn.addEventListener('click', startGameHandler);
-startGameBtn.addEventListener('click', validatePlayersBeforeStart);
-giveSecretWordBtn.addEventListener('click', handleChooseOption);
-giveLetterBtn.addEventListener('click', handleChooseOption);
-
-showPlayers();
-
-//-------------------------------------------------------------------------------------------
 
 function handleChooseOption(e) {
-    let chosenLetters;
-    let option;
+    let chosenLetters, option;
     if (e.target === giveSecretWordBtn) {
         chosenLetters = secretWordInput.value;
         option = 'secretWord';
@@ -162,13 +172,28 @@ function handleChooseOption(e) {
     secretWordInput.value = '';
     letterInput.value = '';
     letterInput.focus();
+    // if (currentPlayer.typePlayer.name === 'Bot') {
+    //     intervalId = giveRandomLetters();
+    // }
 }
 
 function chooseOption(secretWord, player, option) {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    const url = URL_ROUNDS + currentIdRound + `/${option}/`;
+    const letters = generateLetterObjects(secretWord);
+    const body = JSON.stringify({ player, letters });
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
 
-    const letters = secretWord
+    sendHttpRequest(url, 'POST', body, headers)
+        .then(result => displayHangManBoard(result))
+        .then(result => drawHangedMan(result))
+        .then(result => displayLettersForm(result))
+        .then(result => displaySecretWord(result))
+        .then(result => result.round.finished ? displayWinnerLabels(result) : '');
+}
+
+function generateLetterObjects(word) {
+    return word
         .split('')
         .map((letter, index) => {
             return {
@@ -178,71 +203,68 @@ function chooseOption(secretWord, player, option) {
                 "isShown": false
             };
         });
-
-    var raw = JSON.stringify({ player, letters });
-
-    const requestOptions = {
-        method: "POST",
-        body: raw,
-        headers: myHeaders
-    };
-
-    fetch(URL_ROUNDS + currentIdRound + `/${option}/`, requestOptions)
-        .then(response => response.json())
-        .then(result => {
-            currentPlayer = result.round.turn;
-            currentPlayerName.innerText = currentPlayer.name;
-            if (result.secretWord != null) {
-                secretWordForm.style.display = 'none';
-                selectedLetter.style.display = 'block';//------------------------------------------------------------
-                hangedManBoard.style.display = 'flex';
-                letterForm.style.display = 'block';
-            }
-            console.log(result);
-            return result;
-        })
-        .then(result => {
-            const figureParts = document.querySelectorAll('.figure-part');
-            const failedAttempts = result.failedAttempts;
-            figureParts.forEach((part, index) => {
-                if (index < failedAttempts) {
-                    part.style.display = 'block';
-                } else {
-                    part.style.display = 'none';
-                }
-            });
-            return result;
-        })
-        .then(result => {
-            displaySecretWord(result.secretWord);
-            selectedLetter.style.display = 'block';
-            return result;
-        })
-        .then(result => {
-            const round = result.round;
-            if (round.finished) {
-                gameStatus.style.display = 'block';
-                gameStatus.innerText = 'Game Over!';
-                winner.innerText = 'Winner is ' + round.winner.name;
-                winner.style.display = 'block';
-                playersTurns.style.display = 'none';
-                letterForm.style.display = 'none';
-                if (result.failedAttempts >= result.max_NUMBER_OF_ATTEMPTS) {
-                    secretWordDisplay.style.display = 'none';
-                } else {
-                    hangedMan.style.display = 'none';
-                }
-            }
-        });
 }
 
-function displaySecretWord(secretWord = []) {
-    const letters = secretWord
+function displayHangManBoard(result) {
+    currentPlayer = result.round.turn;
+    currentPlayerName.innerText = currentPlayer.name;
+    return result;
+}
+
+function displayLettersForm(result) {
+    if (currentPlayer.typePlayer.name !== 'Bot')
+        letterForm.style.display = 'block';
+    secretWordForm.style.display = 'none';
+    selectedLetter.style.display = 'block';
+    hangedManBoard.style.display = 'flex';
+    return result;
+}
+
+function drawHangedMan(result) {
+    const figureParts = document.querySelectorAll('.figure-part');
+    const failedAttempts = result.failedAttempts;
+    figureParts.forEach((part, index) => {
+        if (index < failedAttempts)
+            part.style.display = 'block';
+        else
+            part.style.display = 'none';
+    });
+    return result;
+}
+
+function displaySecretWord(word = []) {
+    const letters = word.secretWord
         .map(letter => {
             return `
                 <span class='letter-display'>${letter.isShown ? letter.character : ''}</span>
-            `;
+                `;
         })
         .join('');
     secretWordDisplay.innerHTML = letters;
+    selectedLetter.style.display = 'block';
+    return word;
 }
+
+function displayWinnerLabels(result) {
+    const round = result.round;
+    turn.style.display = 'none';
+    gameStatus.style.display = 'block';
+    gameStatus.innerText = 'Game Over!';
+    winner.style.display = 'block';
+    winner.innerText = 'Winner is ' + round.winner.name;
+    playersTurns.style.display = 'none';
+    letterForm.style.display = 'none';
+    if (result.failedAttempts >= result.max_NUMBER_OF_ATTEMPTS)
+        secretWordDisplay.style.display = 'none';
+    else
+        hangedMan.style.display = 'none';
+    return result;
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------END
+
+giveSecretWordBtn.addEventListener('click', handleChooseOption);
+giveLetterBtn.addEventListener('click', handleChooseOption);
+startGameBtn.addEventListener('click', startGameHandler);
+
+showPlayers();
+
