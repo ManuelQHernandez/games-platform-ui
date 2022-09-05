@@ -1,24 +1,46 @@
+//API ROUTES------------------------------------------------------------------------------------------------------------------------
+const URL_PLAYERS = 'http://localhost:8080/api/players/';
+const URL_TTT = 'http://localhost:8080/api/ttt/';
+
+//SHOW PLAYERS------------------------------------------------------------------------------------------------------------------------
 const players = document.querySelector('#players tbody');
 const startGameBtn = document.querySelector('#startGame');
-const restartGameBtn = document.getElementById('restartGame');
 const listPlayers = document.getElementById('players');
+const MAX_NUMBER_OF_PLAYERS = 2;
+
+//SHOW BOARD------------------------------------------------------------------------------------------------------------------------
 const turnBanner = document.getElementById('playerTurn');
 const playerName = document.getElementById('currentPlayerName');
 const squares = document.querySelectorAll('.Square');
 const board = document.getElementById('board');
-const showWinnerPlayer = document.getElementById('winner');
+
+//SHOW PLAYER-PIECE----------------
+const playerNameX = document.getElementById('player-X');
+const playerNameO = document.getElementById('player-O');
+const playersPieces = document.getElementById('players-turns');
+
+//SHOW WINNER------------------------------------------------------------------------------------------------------------------------
 const welcome = document.getElementById('welcome');
+const gameStatusTTT = document.getElementById('game-statusTTT');
+const winnerPlayer = document.getElementById('winner-player');
+const winnerPanel = document.getElementById('winner-ttt-panel');
 
-const URL_PLAYERS = 'http://localhost:8080/api/players/';
-const URL_TTT = 'http://localhost:8080/api/ttt/';
-const MAX_NUMBER_OF_PLAYERS = 2;
-
+//GLOBAL VALUES----------------------------------------------------------------------------------------------------------------------
 let checkBoxes = [];
 let selectedPlayers = [];
 let currentPlayer;
 let currentIdRound;
 let currentPiece;
 let playerX;
+
+function firstView() {
+    turnBanner.style.display = 'none';
+    board.style.display = 'none';
+    gameStatusTTT.style.display = 'none';
+    playersPieces.style.display = 'none';
+    winnerPlayer.style.display = 'none';
+    winnerPanel.style.display = 'none';
+}
 
 function showPlayers() {
     const requestOptions = {
@@ -87,24 +109,39 @@ function createNewTurn(player1, player2) {
             currentPlayer = result.round.turn;
             playerX = currentPlayer;
             currentIdRound = result.round.idRound;
-            playerName.innerText = currentPlayer.name;
+            playerName.innerText = currentPlayer.name + ' ';
             console.log(result);
+            assignPieces(result);
         })
 }
 
-function hideElements() {
+function assignPieces(result) {
+    setTimeout(() => displayTurns(), 5000);
+
+    playerNameX.innerText = playerX.name;
+    if (result.round.player1.name != playerX.name) {
+        playerNameO.innerText = result.round.player1.name;
+    }
+    else if (result.round.player2.name != playerX.name) {
+        playerNameO.innerText = result.round.player2.name;
+    }
+}
+
+function displayTurns() {
+    turnBanner.style.display = 'flex';
+}
+
+function secondView() {
+    displayTurns();
     startGameBtn.style.display = 'none';
     listPlayers.style.display = 'none';
     welcome.style.display = 'none';
-    turnBanner.style.display = 'flex';
-    board.style.display = 'flex';
-    restartGameBtn.style.display = 'flex';
-    restartGameBtn.setAttribute("onClick", "location.reload()");
-}
 
-turnBanner.style.display = 'none';
-board.style.display = 'none';
-restartGameBtn.style.display = 'none';
+    gameStatusTTT.style.display = 'flex';
+    playersPieces.style.display = 'flex';
+    board.style.display = 'flex';
+    gameStatusTTT.display = 'flex';
+}
 
 function selectSquare(event) {
     let x = event.target.dataset.row;
@@ -136,7 +173,6 @@ function selectSquare(event) {
 
 function putPiece(x, y, piece) {
     var positionPutPiece = document.getElementById(x + y);
-
     if (x == undefined && y == undefined) {
         alert('This possitin is not valid')
     }
@@ -174,16 +210,27 @@ function createNewMovement(idRound, player, position, piece) {
         .catch(error => console.log('error', error));
 }
 
-function showWinner(res) {
-    if (res.round.winner != null) {
-        let winner = res.round.winner;
-        showWinnerPlayer.innerText = 'Congratulations ' + winner.name + ' you won this round';
-    }
+function gameResult() {
+    gameStatusTTT.style.display = 'flex';
+    winnerPlayer.style.display = 'flex';
+    winnerPanel.style.display = 'flex';
+
+    turnBanner.style.display = 'none';
+    playersPieces.style.display = 'none';
 }
 
-showPlayers();
+function showWinner(res) {
+    let winner = res.round.winner;
 
-startGameBtn.addEventListener('click', startGameHandler);
+    if (res.round.finished == true && res.round.winner != null) {
+        gameResult();
+        winnerPlayer.innerText = 'Congratulations ' + winner.name + ' you won this round';
+    }
+    else if (res.round.finished == true && res.round.winner == null) {
+        gameResult();
+        winnerPlayer.innerText = 'It was a tie';
+    }
+}
 
 function validatePlayersBeforeStart() {
     const numberOfPlayers = [...checkBoxes].filter(checkbox => checkbox.checked).length;
@@ -191,9 +238,12 @@ function validatePlayersBeforeStart() {
         alert("You need to choose two players");
     }
     else {
-        hideElements();
+        secondView();
     }
 }
 
+firstView();
+showPlayers();
+startGameBtn.addEventListener('click', startGameHandler);
 startGameBtn.addEventListener('click', validatePlayersBeforeStart);
 squares.forEach(square => square.addEventListener('click', selectSquare));

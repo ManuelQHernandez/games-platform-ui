@@ -322,6 +322,17 @@ tr:nth-child(odd) {
   padding-left: 20%;
 }
 
+#winner-ttt-panel {
+  max-width: 600px;
+  background: #24303c;
+  padding: 15px;
+  margin: auto;
+  margin-top: 45px;
+  border-radius: 4px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
 
 /** INPUT DE HANGMAN**/
 
