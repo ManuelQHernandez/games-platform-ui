@@ -20,9 +20,10 @@ function createPlayer(newName, newType) {
     .then((result) => {
       
       //Here you will create the player
-      //playerName.innerText = result.newName;
+      
       console.log(result)
       alert('Player Added', 'success');
+      window.location.href = "list-players.html";
 
     })
     .catch((error) => console.log("error", error));

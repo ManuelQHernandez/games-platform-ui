@@ -66,10 +66,14 @@ li {
 }
 
 header .logo {
-  color: #f2f2f2;
-  font-size: 50px;
+  font-size: 40px;
   line-height: 200px;
   float: left;
+
+  text-transform: uppercase;
+  color: rgb(201, 201, 201);
+  letter-spacing: 1px;
+  font-weight: 400;
 }
 
 header nav {
@@ -608,4 +612,17 @@ input[type='checkbox'] {
 .close:hover {
   background: #FAAC58;
   color:#222;
+}
+
+@media screen and (max-width: 480px) {
+   #header {
+    height: auto;
+   }
+   #main {
+    width: auto;
+   }
+   #footer {
+    display: none;
+   }
+  
 }
