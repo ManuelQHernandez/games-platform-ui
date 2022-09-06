@@ -219,7 +219,7 @@ header nav a:hover {
   width: 100px;
   height: 100px;
   cursor: pointer;
-  border-color: #f2f2f2;
+  padding-left: 5px;
 }
 
 #board {
@@ -326,6 +326,17 @@ tr:nth-child(odd) {
   padding-left: 20%;
 }
 
+#winner-ttt-panel {
+  max-width: 600px;
+  background: #24303c;
+  padding: 15px;
+  margin: auto;
+  margin-top: 45px;
+  border-radius: 4px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
 
 /** INPUT DE HANGMAN**/
 
