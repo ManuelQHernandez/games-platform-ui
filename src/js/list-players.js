@@ -1,7 +1,7 @@
 
 
-const URL_TODOS = "https://jsonplaceholder.typicode.com/todos/";
-const URL_POSTS = "https://jsonplaceholder.typicode.com/posts/";
+const URL_TODOS = "http://localhost:8080/api/players/";
+const URL_DELETE = "http://localhost:8080/api/players/";
 
 const tablePlayers = document.querySelector("#players tbody");
 let deletePlayersBtn;
@@ -18,8 +18,8 @@ function getListOfPlayers() {
       requestResult = json
         .map((element) => {
           return `      
-                <tr id="${element.id}">
-                <td>${element.title.slice(0, 20)}</td>
+                <tr id="${element.idPlayer}">
+                <td>${element.name.slice(0, 20)}</td>
                 <td class="tableData"><button class="delete-btn">Delete</button></td>
                 </tr>
                 `;
@@ -32,7 +32,15 @@ function getListOfPlayers() {
       deletePlayersBtn.forEach((btn) =>
         btn.addEventListener("click", (e) => {
           const idPlayer = e.target.parentElement.parentElement.id;
-          deletePlayer(idPlayer);
+          
+          const result = confirm("Want to delete?");
+          
+          if(result) {
+            deletePlayer(idPlayer);  
+          } else {
+            location.reload();
+          }
+
         })
       )
     );
@@ -47,8 +55,11 @@ function deletePlayer(idPlayer) {
     redirect: "follow",
   };
 
-  fetch((URL_POSTS + idPlayer), requestOptions)
-    .then((response) => response.text())
+  fetch((URL_DELETE + idPlayer), requestOptions)
+    .then((response) => response.json({ message: 'Player delete'}))
+
+    .then(() => location.reload())
+
     .then((result) => console.log(result))
     .catch((error) => console.log("error", error));
 }
