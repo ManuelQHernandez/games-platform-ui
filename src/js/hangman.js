@@ -102,14 +102,6 @@ function createNewTurn(player1, player2) {
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------BEGIN
-// function giveRandomLetters() {
-//     const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-//     return setInterval(() => {
-//         console.log(intervalId);
-//         letterInput.value = alphabet[Math.floor(Math.random() * 26)];
-//         giveLetterBtn.dispatchEvent(event);
-//     }, 1000);
-// }
 
 function displayNextForm(result) {
     assignTurnData(result.round);
@@ -155,7 +147,7 @@ function displaySecretWordForm() {
     secretWordForm.style.display = 'block';
 }
 
-function handleChooseOption(e) {
+function handleHumanChooseOption(e) {
     let chosenLetters, option;
     if (e.target === giveSecretWordBtn) {
         chosenLetters = secretWordInput.value;
@@ -163,18 +155,39 @@ function handleChooseOption(e) {
     } else if (e.target === giveLetterBtn) {
         chosenLetters = letterInput.value;
         selectedLetter.innerText = chosenLetters;
-        setTimeout(() => {
-            selectedLetter.innerText = '';
-        }, 3000);
+        setTimeout(() => selectedLetter.innerText = '', 3000);
         option = 'letter';
     }
+    if (chosenLetters === '') return;
     chooseOption(chosenLetters, currentPlayer, option);
+    resetInputFields();
+    chooseLetterButtonEventHandler();
+}
+
+function resetInputFields() {
     secretWordInput.value = '';
     letterInput.value = '';
     letterInput.focus();
-    // if (currentPlayer.typePlayer.name === 'Bot') {
-    //     intervalId = giveRandomLetters();
-    // }
+}
+
+function chooseLetterButtonEventHandler() {
+    if (currentPlayer.typePlayer.name === 'Bot') {
+        giveLetterBtn.removeEventListener('click', handleHumanChooseOption);
+        giveLetterBtn.addEventListener('click', handleBotChooseOption);
+    } else if (currentPlayer.typePlayer.name === 'Human') {
+        giveLetterBtn.removeEventListener('click', handleBotChooseOption);
+        giveLetterBtn.addEventListener('click', handleHumanChooseOption);
+    }
+}
+
+function handleBotChooseOption(e) {
+    letterInput.value = giveRandomLetter();
+    handleHumanChooseOption(e);
+}
+
+function giveRandomLetter() {
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+    return alphabet[Math.floor(Math.random() * 26)];
 }
 
 function chooseOption(secretWord, player, option) {
@@ -185,6 +198,7 @@ function chooseOption(secretWord, player, option) {
     headers.append("Content-Type", "application/json");
 
     sendHttpRequest(url, 'POST', body, headers)
+        // .then(result => {console.log(result); return result;})
         .then(result => displayHangManBoard(result))
         .then(result => drawHangedMan(result))
         .then(result => displayLettersForm(result))
@@ -206,17 +220,19 @@ function generateLetterObjects(word) {
 }
 
 function displayHangManBoard(result) {
+    if (result.round === undefined) return result;
     currentPlayer = result.round.turn;
     currentPlayerName.innerText = currentPlayer.name;
     return result;
 }
 
 function displayLettersForm(result) {
-    if (currentPlayer.typePlayer.name !== 'Bot')
-        letterForm.style.display = 'block';
     secretWordForm.style.display = 'none';
+    letterForm.style.display = 'block';
     selectedLetter.style.display = 'block';
     hangedManBoard.style.display = 'flex';
+    if (currentPlayer.typePlayer.name === 'Bot')
+        letterInput.style.display = 'none';
     return result;
 }
 
@@ -262,9 +278,8 @@ function displayWinnerLabels(result) {
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------END
 
-giveSecretWordBtn.addEventListener('click', handleChooseOption);
-giveLetterBtn.addEventListener('click', handleChooseOption);
+giveSecretWordBtn.addEventListener('click', handleHumanChooseOption);
+giveLetterBtn.addEventListener('click', handleHumanChooseOption);
 startGameBtn.addEventListener('click', startGameHandler);
 
 showPlayers();
-
