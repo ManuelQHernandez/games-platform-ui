@@ -116,7 +116,7 @@ function createNewTurn(player1, player2) {
 }
 
 function assignPieces(result) {
-    setTimeout(() => displayTurns(), 5000);
+    setTimeout(() => displayTurns(), 3000);
 
     playerNameX.innerText = playerX.name;
     if (result.round.player1.name != playerX.name) {
@@ -128,6 +128,7 @@ function assignPieces(result) {
 }
 
 function displayTurns() {
+    playersPieces.style.display = 'none';
     turnBanner.style.display = 'flex';
 }
 
