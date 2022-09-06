@@ -1,6 +1,4 @@
-//-----------------------------------------------------------------------------------------------------------------------------------------------BEGIN
 const URL_ROUNDS = 'http://localhost:8080/api/hm/';
-//-----------------------------------------------------------------------------------------------------------------------------------------------END
 const URL_PLAYERS = 'http://localhost:8080/api/players/';
 
 const welcome = document.getElementById('welcome');
@@ -12,7 +10,6 @@ const currentPlayerName = document.getElementById('current-player-name');
 const gameStatus = document.getElementById('game-status');
 const winner = document.getElementById('winner');
 const playersTurns = document.getElementById('players-turns');
-//-----------------------------------------------------------------------------------------------------------------------------------------------BEGIN
 const giverName = document.getElementById('giver-name');
 const guesserName = document.getElementById('guesser-name');
 const hangedManPanel = document.getElementById('hanged-man-panel');
@@ -26,7 +23,6 @@ const selectedLetter = document.getElementById('selected-letter');
 const letterForm = document.getElementById('letter-form');
 const letterInput = document.getElementById('letter-input');
 const giveLetterBtn = document.getElementById('give-letter-btn');
-//-----------------------------------------------------------------------------------------------------------------------------------------------END
 
 const NUMBER_OF_PLAYERS = 2;
 
@@ -39,13 +35,11 @@ playersTurns.style.display = 'none';
 turn.style.display = 'none';
 gameStatus.style.display = 'none';
 winner.style.display = 'none';
-//-----------------------------------------------------------------------------------------------------------------------------------------------BEGIN
 secretWordForm.style.display = 'none';
 hangedManBoard.style.display = 'none';
 letterForm.style.display = 'none';
 selectedLetter.style.display = 'none';
 hangedManPanel.style.display = 'none';
-//-----------------------------------------------------------------------------------------------------------------------------------------------END
 
 function sendHttpRequest(url, method = 'GET', body = {}, headers = {}) {
     const requestOptions = method === 'GET' ? { method } : { method, body, headers };
@@ -100,8 +94,6 @@ function createNewTurn(player1, player2) {
     sendHttpRequest(URL_ROUNDS, 'POST', body, headers)
         .then(result => displayNextForm(result));
 }
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------BEGIN
 
 function displayNextForm(result) {
     assignTurnData(result.round);
@@ -198,8 +190,7 @@ function chooseOption(secretWord, player, option) {
     headers.append("Content-Type", "application/json");
 
     sendHttpRequest(url, 'POST', body, headers)
-        // .then(result => {console.log(result); return result;})
-        .then(result => displayHangManBoard(result))
+        .then(result => displayTurnPlayerName(result))
         .then(result => drawHangedMan(result))
         .then(result => displayLettersForm(result))
         .then(result => displaySecretWord(result))
@@ -219,8 +210,7 @@ function generateLetterObjects(word) {
         });
 }
 
-function displayHangManBoard(result) {
-    if (result.round === undefined) return result;
+function displayTurnPlayerName(result) {
     currentPlayer = result.round.turn;
     currentPlayerName.innerText = currentPlayer.name;
     return result;
@@ -276,7 +266,6 @@ function displayWinnerLabels(result) {
         hangedMan.style.display = 'none';
     return result;
 }
-//-----------------------------------------------------------------------------------------------------------------------------------------------END
 
 giveSecretWordBtn.addEventListener('click', handleHumanChooseOption);
 giveLetterBtn.addEventListener('click', handleHumanChooseOption);
