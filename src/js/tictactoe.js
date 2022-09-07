@@ -108,9 +108,8 @@ function createNewTurn(player1, player2) {
         .then(result => {
             currentPlayer = result.round.turn;
             playerX = currentPlayer;
-            currentIdRound = result.round.idRound;
+            currentIdRound = result.idTicTacToeRound;
             playerName.innerText = currentPlayer.name + ' ';
-            console.log(result);
             assignPieces(result);
         })
 }
@@ -205,7 +204,6 @@ function createNewMovement(idRound, player, position, piece) {
         .then(result => {
             currentPlayer = result.round.turn;
             playerName.innerText = currentPlayer.name;
-            console.log(result);
             showWinner(result);
         })
         .catch(error => console.log('error', error));

@@ -96,7 +96,7 @@ function createNewTurn(player1, player2) {
 }
 
 function displayNextForm(result) {
-    assignTurnData(result.round);
+    assignTurnData(result);
     displayPlayersTurns();
     if (currentPlayer.typePlayer.name === 'Bot')
         setTimeout(() => giveRandomWord(), 5000);
@@ -105,9 +105,10 @@ function displayNextForm(result) {
     return result;
 }
 
-function assignTurnData(round) {
+function assignTurnData(result) {
+    const round = result.round;
     currentPlayer = round.turn;
-    currentIdRound = round.idRound;
+    currentIdRound = result.idHangManRound;
     giverName.innerText = round.player1.name;
     guesserName.innerHTML = round.player2.name;
     currentPlayerName.innerText = currentPlayer.name;
