@@ -153,8 +153,6 @@ function handleHumanChooseOption(e) {
     }
     if (chosenLetters === '') return;
     chooseOption(chosenLetters, currentPlayer, option);
-    resetInputFields();
-    chooseLetterButtonEventHandler();
 }
 
 function resetInputFields() {
@@ -167,7 +165,7 @@ function chooseLetterButtonEventHandler() {
     if (currentPlayer.typePlayer.name === 'Bot') {
         giveLetterBtn.removeEventListener('click', handleHumanChooseOption);
         giveLetterBtn.addEventListener('click', handleBotChooseOption);
-    } else if (currentPlayer.typePlayer.name === 'Human') {
+    } else {
         giveLetterBtn.removeEventListener('click', handleBotChooseOption);
         giveLetterBtn.addEventListener('click', handleHumanChooseOption);
     }
@@ -191,11 +189,17 @@ function chooseOption(secretWord, player, option) {
     headers.append("Content-Type", "application/json");
 
     sendHttpRequest(url, 'POST', body, headers)
-        .then(result => displayTurnPlayerName(result))
         .then(result => drawHangedMan(result))
         .then(result => displayLettersForm(result))
         .then(result => displaySecretWord(result))
-        .then(result => result.round.finished ? displayWinnerLabels(result) : '');
+        .then(result => displayTurnPlayerName(result))
+        .then(result => {        
+            if (currentPlayer.typePlayer.name === 'Bot')
+                letterInput.style.display = 'none';
+            return result;
+        })
+        .then(result => result.round.finished ? displayWinnerLabels(result) : '')
+        ;
 }
 
 function generateLetterObjects(word) {
@@ -214,6 +218,9 @@ function generateLetterObjects(word) {
 function displayTurnPlayerName(result) {
     currentPlayer = result.round.turn;
     currentPlayerName.innerText = currentPlayer.name;
+
+    resetInputFields();
+    chooseLetterButtonEventHandler();
     return result;
 }
 
@@ -222,8 +229,7 @@ function displayLettersForm(result) {
     letterForm.style.display = 'block';
     selectedLetter.style.display = 'block';
     hangedManBoard.style.display = 'flex';
-    if (currentPlayer.typePlayer.name === 'Bot')
-        letterInput.style.display = 'none';
+    letterInput.style.display = 'block';
     return result;
 }
 
