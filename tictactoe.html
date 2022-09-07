@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./src/css/styles.css">
+	<title>TicTacToe</title>
+</head>
+
+<body>
+	<header class="header">
+		<a class="back-button" href="index.html">Back to Menu</a>
+		<div id="welcome">
+			<h1 class="title">Welcome to TicTacToe!</h1>
+			<h2 class="subtitle">Let's choose some players</h2>
+		</div>
+		<div id="players-turns">
+			<h5 class="title">Piece X: <span class="player-name" id="player-X"></span></h5>
+			<h5 class="title">Piece O: <span class="player-name" id="player-O"></span></h5>
+		</div>
+		<div class="turnsPlayers" id="playerTurn">
+			<h6>It's your turn <span id="currentPlayerName"> </span>
+			</h6>
+		</div>
+	</header>
+
+	<main>
+		<table class="playerTable" id="players">
+			<thead>
+				<tr>
+					<th class="tableHead">Name</th>
+					<th class="tableHead">Select</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+
+		<table class="form-box" id="board">
+            <div id="game-statusTTT" class="subtitle"></div>
+			<button class="btnStartTTT" id="startGame">Start</button>
+
+			<tr id="trBackgroud">
+				<td data-row=1 data-column=1 class="Square"> <img id="11"></td>
+				<td data-row=1 data-column=2 class="Square vertical"><img id="12"></td>
+				<td data-row=1 data-column=3 class="Square"><img id="13"></td>
+			</tr>
+			<tr id="trBackgroud">
+				<td data-row=2 data-column=1 class="Square horizontal"><img id="21"></td>
+				<td data-row=2 data-column=2 class="Square vertical horizontal"><img id="22"></td>
+				<td data-row=2 data-column=3 class="Square horizontal"><img id="23"></td>
+			</tr>
+			<tr id="trBackgroud">
+				<td data-column=1 data-row=3 class="Square"><img id="31"></td>
+				<td data-column=2 data-row=3 class="Square vertical"><img id="32"></td>
+				<td data-column=3 data-row=3 class="Square"><img id="33"></td>
+			</tr>
+		</table>
+		<div id="winner-ttt-panel">
+			<div id="winner-player" class="subtitle"></div>
+		</div>
+	</main>
+
+	<footer class="footer">
+		<div class="copyright">
+			<p>Copyright©Telus International. All right reserved</p>
+			<p>Privacy Policy Terms and conditions</p>
+		</div>
+	</footer>
+	<script src="./src/js/tictactoe.js"></script>
+</body>
+
+</html>
